@@ -1,0 +1,5 @@
+REFERENCE FILES
+
+/home/pth1612/CD8_microexon_reproduction/02_reference/Homo_sapiens.GRCh38.dna.primary_assembly.fa | 3151425851 bytes | modified=2026-09-14 16:22:38.957311363 +0900
+/home/pth1612/CD8_microexon_reproduction/02_reference/Homo_sapiens.GRCh38.114.gtf | 1747618282 bytes | modified=2026-09-14 16:22:49.262346055 +0900
+/home/pth1612/CD8_microexon_reproduction/02_reference/hg38.phyloP100way.bw | 9870053206 bytes | modified=2026-09-17 16:05:25.923402566 +0900

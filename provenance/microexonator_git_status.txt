@@ -1,0 +1,40 @@
+ M envs/core_py3.yaml
+ M rules/Get_data.smk
+ M rules/Round2.smk
+ M rules/Whippet_quant.smk
+ M src/Get_annotated_microexons.py
+ M src/ME_filter1.py
+?? .snakemake/
+?? FASTQ/
+?? FASTQ_whippet_clean/
+?? FASTQ_whippet_paired_clean/
+?? Paired_samples.tsv
+?? Report/
+?? Round1/
+?? Round2/
+?? Whippet/
+?? Whippet_Paired/
+?? __pycache__/
+?? config.yaml
+?? data/
+?? download/
+?? dryrun.log
+?? dryrun_full.log
+?? envs/core_py3_compat.yaml
+?? filter_noN_resume.log
+?? filter_whippet_noN.py
+?? filter_whippet_paired_noN.py
+?? local_samples.tsv
+?? logs/
+?? paired_filter.log
+?? paired_followup.log
+?? resume_filter_whippet_noN.py
+?? run_official.log
+?? run_paired_delta.sh
+?? run_whippet_paired.py
+?? src/Get_annotated_microexons.pyc
+?? src/ME_filter1.pyc
+?? wait_then_whippet_paired.sh
+?? whippet_clean_run.log
+?? whippet_paired_delta.log
+?? whippet_paired_run.log

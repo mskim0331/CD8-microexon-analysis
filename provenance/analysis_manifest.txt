@@ -1,0 +1,62 @@
+============================================================
+LOCAL FASTQ REGISTRY
+============================================================
+Entries excluding header: 48
+
+============================================================
+BIOLOGICAL R1/R2 PAIRS
+============================================================
+Pairs: 24
+
+============================================================
+MICROEXONATOR OUTPUTS
+============================================================
+-rw-rw-r-- 1 pth1612 pth1612 484M  9월 22 21:33 Report/out.high_quality.gtf
+-rw-rw-r-- 1 pth1612 pth1612 138K  9월 22 21:31 Report/out.high_quality.txt
+-rw-rw-r-- 1 pth1612 pth1612  20M  9월 22 21:33 Report/out_filtered_ME.PSI.txt
+
+out.high_quality.txt lines: 657
+out_filtered_ME.PSI.txt lines: 140401
+
+============================================================
+PAIRED-END WHIPPET QUANTIFICATION
+============================================================
+CD8_12hr_activation_1.psi.gz	20790725 bytes
+CD8_12hr_activation_2.psi.gz	20530668 bytes
+CD8_12hr_activation_3.psi.gz	19517237 bytes
+CD8_24hr_activation_1.psi.gz	19785562 bytes
+CD8_24hr_activation_2.psi.gz	19780770 bytes
+CD8_24hr_activation_3.psi.gz	19642607 bytes
+CD8_30min_activation_1.psi.gz	19670365 bytes
+CD8_30min_activation_2.psi.gz	19906555 bytes
+CD8_30min_activation_3.psi.gz	22290712 bytes
+CD8_3hr_activation_1.psi.gz	19430486 bytes
+CD8_3hr_activation_2.psi.gz	20729577 bytes
+CD8_3hr_activation_3.psi.gz	18815160 bytes
+CD8_48hr_activation_1.psi.gz	18819921 bytes
+CD8_48hr_activation_2.psi.gz	19062921 bytes
+CD8_48hr_activation_3.psi.gz	19605413 bytes
+CD8_72hr_activation_1.psi.gz	18872067 bytes
+CD8_72hr_activation_2.psi.gz	18123624 bytes
+CD8_72hr_activation_3.psi.gz	18496837 bytes
+CD8_7day_activation_1.psi.gz	21022543 bytes
+CD8_7day_activation_2.psi.gz	19626507 bytes
+CD8_7day_activation_3.psi.gz	22079272 bytes
+CD8_ctrl_1.psi.gz	19067012 bytes
+CD8_ctrl_2.psi.gz	20305834 bytes
+CD8_ctrl_3.psi.gz	18527146 bytes
+
+Paired PSI files: 24
+
+============================================================
+PAIRED-END DIFFERENTIAL ANALYSIS
+============================================================
+CD8_Ctrl_vs_CD8_12hr_activation.diff.gz	8063157 bytes
+CD8_Ctrl_vs_CD8_24hr_activation.diff.gz	8117652 bytes
+CD8_Ctrl_vs_CD8_30min_activation.diff.gz	8270402 bytes
+CD8_Ctrl_vs_CD8_3hr_activation.diff.gz	7920284 bytes
+CD8_Ctrl_vs_CD8_48hr_activation.diff.gz	7950198 bytes
+CD8_Ctrl_vs_CD8_72hr_activation.diff.gz	8143786 bytes
+CD8_Ctrl_vs_CD8_7day_activation.diff.gz	8250311 bytes
+
+Differential comparisons: 7

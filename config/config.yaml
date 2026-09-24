@@ -1,0 +1,22 @@
+Genome_fasta : /home/pth1612/CD8_microexon_reproduction/02_reference/Homo_sapiens.GRCh38.dna.primary_assembly.fa
+
+Gene_anontation_GTF : /home/pth1612/CD8_microexon_reproduction/02_reference/Homo_sapiens.GRCh38.114.gtf
+
+GT_AG_U2_5 : NA
+GT_AG_U2_3 : NA
+
+conservation_bigwig : /home/pth1612/CD8_microexon_reproduction/02_reference/hg38.phyloP100way.bw
+
+working_directory : /home/pth1612/CD8_microexon_reproduction/03_MicroExonator_official/
+
+ME_len : 30
+
+Optimize_hard_drive : F
+
+min_number_files_detected : 3
+
+julia : /home/pth1612/anaconda3/envs/smakemake2/bin/julia
+whippet_bin_folder : /home/pth1612/Whippet.jl/bin
+
+paired_samples : /home/pth1612/CD8_microexon_reproduction/03_MicroExonator_official/Paired_samples.tsv
+min_reads_PSI : 5

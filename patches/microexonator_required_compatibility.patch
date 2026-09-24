@@ -1,0 +1,72 @@
+diff --git a/envs/core_py3.yaml b/envs/core_py3.yaml
+index c16fd41..d2157d3 100644
+--- a/envs/core_py3.yaml
++++ b/envs/core_py3.yaml
+@@ -10,11 +10,11 @@ dependencies:
+   - htslib=1.7=0
+   - pybedtools=0.7.10=py36_2
+   - pysam=0.14.1=py36hae42fb6_1
+-  - samtools=1.9=h8ee4bcc_1
++  - samtools=1.9
+   - sra-tools=2.9.1_1
+   - biopython
+   - pandas=0.23.4=py36hf8a1672_0
+-  - python=3.6.6=h5001a0f_0
++  - python=3.6
+   - numpy=1.14.3
+   - numpy-base=1.14.3=py36h0ea5e3f_1
+   - pybedtools
+diff --git a/rules/Get_data.smk b/rules/Get_data.smk
+index b3ec009..b96c1ab 100644
+--- a/rules/Get_data.smk
++++ b/rules/Get_data.smk
+@@ -46,6 +46,8 @@ else:
+             config["Gene_anontation_GTF"]
+         output:
+             "data/transcriptome.bed12"
++        conda:
++            "../envs/core.yaml"
+         shell:
+             "python2 src/GTFtoBED12.py {input} > {output}"
+   
+diff --git a/rules/Round2.smk b/rules/Round2.smk
+index 3a68ae0..c97df1d 100644
+--- a/rules/Round2.smk
++++ b/rules/Round2.smk
+@@ -147,7 +147,7 @@ rule Round2_bowtie_to_tags:
+     conda:
+         "../envs/core.yaml"
+     shell:
+-        "gzip -dc {input[1]} |  bowtie {input[0]} -p {threads} -q - -S -v 2 --seed 123 | awk '!($6 ~ /I/) && !($6 ~ /D/) && !($6 ~ /S/) && !($6 ~ /*/)' > {output}"
++        "gzip -dc {input[1]} |  bowtie {input[0]} -p {threads} -q - -S -v 2 --seed 123 | awk '!($6 ~ /I/) && !($6 ~ /D/) && !($6 ~ /S/) && $6 !~ /^[*]$/' > {output}"
+ 
+ 
+ rule Round2_alingment_pre_processing:
+diff --git a/src/Get_annotated_microexons.py b/src/Get_annotated_microexons.py
+index 817ff09..1d6db06 100644
+--- a/src/Get_annotated_microexons.py
++++ b/src/Get_annotated_microexons.py
+@@ -382,7 +382,8 @@ def main(ME_centric, bed12, U2_GTAG_5_file, U2_GTAG_3_file, phylop, ME_len, ME_D
+ 				else:
+ 
+ 					try:
+-						mean_conservation= phylop_bw.stats(chrom, estart-2, eend+2, type="mean")[0]
++						bw_chr = "chrM" if chrom == "MT" else (chrom if chrom.startswith("chr") else "chr" + chrom)
++						mean_conservation= phylop_bw.stats(bw_chr, estart-2, eend+2, type="mean")[0]
+ 					except RuntimeError:
+ 						mean_conservation=0
+ 
+diff --git a/src/ME_filter1.py b/src/ME_filter1.py
+index ad37f51..722c1a0 100644
+--- a/src/ME_filter1.py
++++ b/src/ME_filter1.py
+@@ -297,7 +297,8 @@ def main(row_ME, reads_genome, U2_GTAG_5_file, U2_GTAG_3_file, phylop, ME_len):
+ 					else:
+ 						try:
+ 
+-							mean_conservation= phylop_bw.stats(ME_chr, ME_start-2, ME_end+2, type="mean")[0]
++							bw_chr = "chrM" if ME_chr == "MT" else (ME_chr if ME_chr.startswith("chr") else "chr" + ME_chr)
++							mean_conservation= phylop_bw.stats(bw_chr, ME_start-2, ME_end+2, type="mean")[0]
+ 
+ 						except RuntimeError:
+ 

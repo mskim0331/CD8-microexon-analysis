@@ -1,0 +1,229 @@
+============================================================
+PREVIOUS ANALYSIS: WHIPPET DIFFERENTIAL CONFIGURATION
+============================================================
+2:  A : CD8_ctrl_1,CD8_ctrl_1_R,CD8_ctrl_2,CD8_ctrl_2_R,CD8_ctrl_3,CD8_ctrl_3_R
+3:  B : CD8_30min_activation_1,CD8_30min_activation_1_R,CD8_30min_activation_2,CD8_30min_activation_2_R,CD8_30min_activation_3,CD8_30min_activation_3_R
+5:  A : CD8_ctrl_1,CD8_ctrl_1_R,CD8_ctrl_2,CD8_ctrl_2_R,CD8_ctrl_3,CD8_ctrl_3_R
+6:  B : CD8_3hr_activation_1,CD8_3hr_activation_1_R,CD8_3hr_activation_2,CD8_3hr_activation_2_R,CD8_3hr_activation_3,CD8_3hr_activation_3_R
+8:  A : CD8_ctrl_1,CD8_ctrl_1_R,CD8_ctrl_2,CD8_ctrl_2_R,CD8_ctrl_3,CD8_ctrl_3_R
+9:  B : CD8_12hr_activation_1,CD8_12hr_activation_1_R,CD8_12hr_activation_2,CD8_12hr_activation_2_R,CD8_12hr_activation_3,CD8_12hr_activation_3_R
+11:  A : CD8_ctrl_1,CD8_ctrl_1_R,CD8_ctrl_2,CD8_ctrl_2_R,CD8_ctrl_3,CD8_ctrl_3_R
+12:  B : CD8_24hr_activation_1,CD8_24hr_activation_1_R,CD8_24hr_activation_2,CD8_24hr_activation_2_R,CD8_24hr_activation_3,CD8_24hr_activation_3_R
+14:  A : CD8_ctrl_1,CD8_ctrl_1_R,CD8_ctrl_2,CD8_ctrl_2_R,CD8_ctrl_3,CD8_ctrl_3_R
+15:  B : CD8_48hr_activation_1,CD8_48hr_activation_1_R,CD8_48hr_activation_2,CD8_48hr_activation_2_R,CD8_48hr_activation_3,CD8_48hr_activation_3_R
+17:  A : CD8_ctrl_1,CD8_ctrl_1_R,CD8_ctrl_2,CD8_ctrl_2_R,CD8_ctrl_3,CD8_ctrl_3_R
+18:  B : CD8_72hr_activation_1,CD8_72hr_activation_1_R,CD8_72hr_activation_2,CD8_72hr_activation_2_R,CD8_72hr_activation_3,CD8_72hr_activation_3_R
+20:  A : CD8_ctrl_1,CD8_ctrl_1_R,CD8_ctrl_2,CD8_ctrl_2_R,CD8_ctrl_3,CD8_ctrl_3_R
+21:  B : CD8_7day_activation_1,CD8_7day_activation_1_R,CD8_7day_activation_2,CD8_7day_activation_2_R,CD8_7day_activation_3,CD8_7day_activation_3_R
+23:  A : CD8_30min_activation_1,CD8_30min_activation_1_R,CD8_30min_activation_2,CD8_30min_activation_2_R,CD8_30min_activation_3,CD8_30min_activation_3_R
+24:  B : CD8_3hr_activation_1,CD8_3hr_activation_1_R,CD8_3hr_activation_2,CD8_3hr_activation_2_R,CD8_3hr_activation_3,CD8_3hr_activation_3_R
+26:  A : CD8_30min_activation_1,CD8_30min_activation_1_R,CD8_30min_activation_2,CD8_30min_activation_2_R,CD8_30min_activation_3,CD8_30min_activation_3_R
+27:  B : CD8_12hr_activation_1,CD8_12hr_activation_1_R,CD8_12hr_activation_2,CD8_12hr_activation_2_R,CD8_12hr_activation_3,CD8_12hr_activation_3_R
+29:  A : CD8_30min_activation_1,CD8_30min_activation_1_R,CD8_30min_activation_2,CD8_30min_activation_2_R,CD8_30min_activation_3,CD8_30min_activation_3_R
+30:  B : CD8_24hr_activation_1,CD8_24hr_activation_1_R,CD8_24hr_activation_2,CD8_24hr_activation_2_R,CD8_24hr_activation_3,CD8_24hr_activation_3_R
+32:  A : CD8_30min_activation_1,CD8_30min_activation_1_R,CD8_30min_activation_2,CD8_30min_activation_2_R,CD8_30min_activation_3,CD8_30min_activation_3_R
+33:  B : CD8_48hr_activation_1,CD8_48hr_activation_1_R,CD8_48hr_activation_2,CD8_48hr_activation_2_R,CD8_48hr_activation_3,CD8_48hr_activation_3_R
+35:  A : CD8_30min_activation_1,CD8_30min_activation_1_R,CD8_30min_activation_2,CD8_30min_activation_2_R,CD8_30min_activation_3,CD8_30min_activation_3_R
+36:  B : CD8_72hr_activation_1,CD8_72hr_activation_1_R,CD8_72hr_activation_2,CD8_72hr_activation_2_R,CD8_72hr_activation_3,CD8_72hr_activation_3_R
+38:  A : CD8_30min_activation_1,CD8_30min_activation_1_R,CD8_30min_activation_2,CD8_30min_activation_2_R,CD8_30min_activation_3,CD8_30min_activation_3_R
+39:  B : CD8_7day_activation_1,CD8_7day_activation_1_R,CD8_7day_activation_2,CD8_7day_activation_2_R,CD8_7day_activation_3,CD8_7day_activation_3_R
+41:  A : CD8_3hr_activation_1,CD8_3hr_activation_1_R,CD8_3hr_activation_2,CD8_3hr_activation_2_R,CD8_3hr_activation_3,CD8_3hr_activation_3_R
+42:  B : CD8_12hr_activation_1,CD8_12hr_activation_1_R,CD8_12hr_activation_2,CD8_12hr_activation_2_R,CD8_12hr_activation_3,CD8_12hr_activation_3_R
+44:  A : CD8_3hr_activation_1,CD8_3hr_activation_1_R,CD8_3hr_activation_2,CD8_3hr_activation_2_R,CD8_3hr_activation_3,CD8_3hr_activation_3_R
+45:  B : CD8_24hr_activation_1,CD8_24hr_activation_1_R,CD8_24hr_activation_2,CD8_24hr_activation_2_R,CD8_24hr_activation_3,CD8_24hr_activation_3_R
+47:  A : CD8_3hr_activation_1,CD8_3hr_activation_1_R,CD8_3hr_activation_2,CD8_3hr_activation_2_R,CD8_3hr_activation_3,CD8_3hr_activation_3_R
+48:  B : CD8_48hr_activation_1,CD8_48hr_activation_1_R,CD8_48hr_activation_2,CD8_48hr_activation_2_R,CD8_48hr_activation_3,CD8_48hr_activation_3_R
+50:  A : CD8_3hr_activation_1,CD8_3hr_activation_1_R,CD8_3hr_activation_2,CD8_3hr_activation_2_R,CD8_3hr_activation_3,CD8_3hr_activation_3_R
+51:  B : CD8_72hr_activation_1,CD8_72hr_activation_1_R,CD8_72hr_activation_2,CD8_72hr_activation_2_R,CD8_72hr_activation_3,CD8_72hr_activation_3_R
+53:  A : CD8_3hr_activation_1,CD8_3hr_activation_1_R,CD8_3hr_activation_2,CD8_3hr_activation_2_R,CD8_3hr_activation_3,CD8_3hr_activation_3_R
+54:  B : CD8_7day_activation_1,CD8_7day_activation_1_R,CD8_7day_activation_2,CD8_7day_activation_2_R,CD8_7day_activation_3,CD8_7day_activation_3_R
+56:  A : CD8_12hr_activation_1,CD8_12hr_activation_1_R,CD8_12hr_activation_2,CD8_12hr_activation_2_R,CD8_12hr_activation_3,CD8_12hr_activation_3_R
+57:  B : CD8_24hr_activation_1,CD8_24hr_activation_1_R,CD8_24hr_activation_2,CD8_24hr_activation_2_R,CD8_24hr_activation_3,CD8_24hr_activation_3_R
+59:  A : CD8_12hr_activation_1,CD8_12hr_activation_1_R,CD8_12hr_activation_2,CD8_12hr_activation_2_R,CD8_12hr_activation_3,CD8_12hr_activation_3_R
+60:  B : CD8_48hr_activation_1,CD8_48hr_activation_1_R,CD8_48hr_activation_2,CD8_48hr_activation_2_R,CD8_48hr_activation_3,CD8_48hr_activation_3_R
+62:  A : CD8_12hr_activation_1,CD8_12hr_activation_1_R,CD8_12hr_activation_2,CD8_12hr_activation_2_R,CD8_12hr_activation_3,CD8_12hr_activation_3_R
+63:  B : CD8_72hr_activation_1,CD8_72hr_activation_1_R,CD8_72hr_activation_2,CD8_72hr_activation_2_R,CD8_72hr_activation_3,CD8_72hr_activation_3_R
+65:  A : CD8_12hr_activation_1,CD8_12hr_activation_1_R,CD8_12hr_activation_2,CD8_12hr_activation_2_R,CD8_12hr_activation_3,CD8_12hr_activation_3_R
+66:  B : CD8_7day_activation_1,CD8_7day_activation_1_R,CD8_7day_activation_2,CD8_7day_activation_2_R,CD8_7day_activation_3,CD8_7day_activation_3_R
+68:  A : CD8_24hr_activation_1,CD8_24hr_activation_1_R,CD8_24hr_activation_2,CD8_24hr_activation_2_R,CD8_24hr_activation_3,CD8_24hr_activation_3_R
+69:  B : CD8_48hr_activation_1,CD8_48hr_activation_1_R,CD8_48hr_activation_2,CD8_48hr_activation_2_R,CD8_48hr_activation_3,CD8_48hr_activation_3_R
+71:  A : CD8_24hr_activation_1,CD8_24hr_activation_1_R,CD8_24hr_activation_2,CD8_24hr_activation_2_R,CD8_24hr_activation_3,CD8_24hr_activation_3_R
+72:  B : CD8_72hr_activation_1,CD8_72hr_activation_1_R,CD8_72hr_activation_2,CD8_72hr_activation_2_R,CD8_72hr_activation_3,CD8_72hr_activation_3_R
+74:  A : CD8_24hr_activation_1,CD8_24hr_activation_1_R,CD8_24hr_activation_2,CD8_24hr_activation_2_R,CD8_24hr_activation_3,CD8_24hr_activation_3_R
+75:  B : CD8_7day_activation_1,CD8_7day_activation_1_R,CD8_7day_activation_2,CD8_7day_activation_2_R,CD8_7day_activation_3,CD8_7day_activation_3_R
+77:  A : CD8_48hr_activation_1,CD8_48hr_activation_1_R,CD8_48hr_activation_2,CD8_48hr_activation_2_R,CD8_48hr_activation_3,CD8_48hr_activation_3_R
+78:  B : CD8_72hr_activation_1,CD8_72hr_activation_1_R,CD8_72hr_activation_2,CD8_72hr_activation_2_R,CD8_72hr_activation_3,CD8_72hr_activation_3_R
+80:  A : CD8_48hr_activation_1,CD8_48hr_activation_1_R,CD8_48hr_activation_2,CD8_48hr_activation_2_R,CD8_48hr_activation_3,CD8_48hr_activation_3_R
+81:  B : CD8_7day_activation_1,CD8_7day_activation_1_R,CD8_7day_activation_2,CD8_7day_activation_2_R,CD8_7day_activation_3,CD8_7day_activation_3_R
+83:  A : CD8_72hr_activation_1,CD8_72hr_activation_1_R,CD8_72hr_activation_2,CD8_72hr_activation_2_R,CD8_72hr_activation_3,CD8_72hr_activation_3_R
+84:  B : CD8_7day_activation_1,CD8_7day_activation_1_R,CD8_7day_activation_2,CD8_7day_activation_2_R,CD8_7day_activation_3,CD8_7day_activation_3_R
+
+============================================================
+PREVIOUS ANALYSIS: SEPARATE R1/R2 WHIPPET OUTPUTS
+============================================================
+CD8_12hr_activation_1.psi.ME.gz
+CD8_12hr_activation_1_R.psi.ME.gz
+CD8_12hr_activation_2.psi.ME.gz
+CD8_12hr_activation_2_R.psi.ME.gz
+CD8_12hr_activation_3.psi.ME.gz
+CD8_12hr_activation_3_R.psi.ME.gz
+CD8_24hr_activation_1.psi.ME.gz
+CD8_24hr_activation_1_R.psi.ME.gz
+CD8_24hr_activation_2.psi.ME.gz
+CD8_24hr_activation_2_R.psi.ME.gz
+CD8_24hr_activation_3.psi.ME.gz
+CD8_24hr_activation_3_R.psi.ME.gz
+CD8_30min_activation_1.psi.ME.gz
+CD8_30min_activation_1_R.psi.ME.gz
+CD8_30min_activation_2.psi.ME.gz
+CD8_30min_activation_2_R.psi.ME.gz
+CD8_30min_activation_3.psi.ME.gz
+CD8_30min_activation_3_R.psi.ME.gz
+CD8_3hr_activation_1.psi.ME.gz
+CD8_3hr_activation_1_R.psi.ME.gz
+CD8_3hr_activation_2.psi.ME.gz
+CD8_3hr_activation_2_R.psi.ME.gz
+CD8_3hr_activation_3.psi.ME.gz
+CD8_3hr_activation_3_R.psi.ME.gz
+CD8_48hr_activation_1.psi.ME.gz
+CD8_48hr_activation_1_R.psi.ME.gz
+CD8_48hr_activation_2.psi.ME.gz
+CD8_48hr_activation_2_R.psi.ME.gz
+CD8_48hr_activation_3.psi.ME.gz
+CD8_48hr_activation_3_R.psi.ME.gz
+CD8_72hr_activation_1.psi.ME.gz
+CD8_72hr_activation_1_R.psi.ME.gz
+CD8_72hr_activation_2.psi.ME.gz
+CD8_72hr_activation_2_R.psi.ME.gz
+CD8_72hr_activation_3.psi.ME.gz
+CD8_72hr_activation_3_R.psi.ME.gz
+CD8_7day_activation_1.psi.ME.gz
+CD8_7day_activation_1_R.psi.ME.gz
+CD8_7day_activation_2.psi.ME.gz
+CD8_7day_activation_2_R.psi.ME.gz
+CD8_7day_activation_3.psi.ME.gz
+CD8_7day_activation_3_R.psi.ME.gz
+CD8_ctrl_1.psi.ME.gz
+CD8_ctrl_1_R.psi.ME.gz
+CD8_ctrl_2.psi.ME.gz
+CD8_ctrl_2_R.psi.ME.gz
+CD8_ctrl_3.psi.ME.gz
+CD8_ctrl_3_R.psi.ME.gz
+
+Previous psi.ME.gz count: 48
+
+============================================================
+PREVIOUS ANALYSIS: DIFFERENTIAL OUTPUTS
+============================================================
+CD8_12hr_activation_vs_CD8_24hr_activation.ME.diff.gz
+CD8_12hr_activation_vs_CD8_24hr_activation.diff.ME.microexons
+CD8_12hr_activation_vs_CD8_24hr_activation.diff.gz
+CD8_12hr_activation_vs_CD8_24hr_activation.diff.microexons
+CD8_12hr_activation_vs_CD8_48hr_activation.ME.diff.gz
+CD8_12hr_activation_vs_CD8_48hr_activation.diff.ME.microexons
+CD8_12hr_activation_vs_CD8_48hr_activation.diff.gz
+CD8_12hr_activation_vs_CD8_48hr_activation.diff.microexons
+CD8_12hr_activation_vs_CD8_72hr_activation.ME.diff.gz
+CD8_12hr_activation_vs_CD8_72hr_activation.diff.ME.microexons
+CD8_12hr_activation_vs_CD8_72hr_activation.diff.gz
+CD8_12hr_activation_vs_CD8_72hr_activation.diff.microexons
+CD8_12hr_activation_vs_CD8_7day_activation.ME.diff.gz
+CD8_12hr_activation_vs_CD8_7day_activation.diff.ME.microexons
+CD8_12hr_activation_vs_CD8_7day_activation.diff.gz
+CD8_12hr_activation_vs_CD8_7day_activation.diff.microexons
+CD8_24hr_activation_vs_CD8_48hr_activation.ME.diff.gz
+CD8_24hr_activation_vs_CD8_48hr_activation.diff.ME.microexons
+CD8_24hr_activation_vs_CD8_48hr_activation.diff.gz
+CD8_24hr_activation_vs_CD8_48hr_activation.diff.microexons
+CD8_24hr_activation_vs_CD8_72hr_activation.ME.diff.gz
+CD8_24hr_activation_vs_CD8_72hr_activation.diff.ME.microexons
+CD8_24hr_activation_vs_CD8_72hr_activation.diff.gz
+CD8_24hr_activation_vs_CD8_72hr_activation.diff.microexons
+CD8_24hr_activation_vs_CD8_7day_activation.ME.diff.gz
+CD8_24hr_activation_vs_CD8_7day_activation.diff.ME.microexons
+CD8_24hr_activation_vs_CD8_7day_activation.diff.gz
+CD8_24hr_activation_vs_CD8_7day_activation.diff.microexons
+CD8_30min_activation_vs_CD8_12hr_activation.ME.diff.gz
+CD8_30min_activation_vs_CD8_12hr_activation.diff.ME.microexons
+CD8_30min_activation_vs_CD8_12hr_activation.diff.gz
+CD8_30min_activation_vs_CD8_12hr_activation.diff.microexons
+CD8_30min_activation_vs_CD8_24hr_activation.ME.diff.gz
+CD8_30min_activation_vs_CD8_24hr_activation.diff.ME.microexons
+CD8_30min_activation_vs_CD8_24hr_activation.diff.gz
+CD8_30min_activation_vs_CD8_24hr_activation.diff.microexons
+CD8_30min_activation_vs_CD8_3hr_activation.ME.diff.gz
+CD8_30min_activation_vs_CD8_3hr_activation.diff.ME.microexons
+CD8_30min_activation_vs_CD8_3hr_activation.diff.gz
+CD8_30min_activation_vs_CD8_3hr_activation.diff.microexons
+CD8_30min_activation_vs_CD8_48hr_activation.ME.diff.gz
+CD8_30min_activation_vs_CD8_48hr_activation.diff.ME.microexons
+CD8_30min_activation_vs_CD8_48hr_activation.diff.gz
+CD8_30min_activation_vs_CD8_48hr_activation.diff.microexons
+CD8_30min_activation_vs_CD8_72hr_activation.ME.diff.gz
+CD8_30min_activation_vs_CD8_72hr_activation.diff.ME.microexons
+CD8_30min_activation_vs_CD8_72hr_activation.diff.gz
+CD8_30min_activation_vs_CD8_72hr_activation.diff.microexons
+CD8_30min_activation_vs_CD8_7day_activation.ME.diff.gz
+CD8_30min_activation_vs_CD8_7day_activation.diff.ME.microexons
+CD8_30min_activation_vs_CD8_7day_activation.diff.gz
+CD8_30min_activation_vs_CD8_7day_activation.diff.microexons
+CD8_3hr_activation_vs_CD8_12hr_activation.ME.diff.gz
+CD8_3hr_activation_vs_CD8_12hr_activation.diff.ME.microexons
+CD8_3hr_activation_vs_CD8_12hr_activation.diff.gz
+CD8_3hr_activation_vs_CD8_12hr_activation.diff.microexons
+CD8_3hr_activation_vs_CD8_24hr_activation.ME.diff.gz
+CD8_3hr_activation_vs_CD8_24hr_activation.diff.ME.microexons
+CD8_3hr_activation_vs_CD8_24hr_activation.diff.gz
+CD8_3hr_activation_vs_CD8_24hr_activation.diff.microexons
+CD8_3hr_activation_vs_CD8_48hr_activation.ME.diff.gz
+CD8_3hr_activation_vs_CD8_48hr_activation.diff.ME.microexons
+CD8_3hr_activation_vs_CD8_48hr_activation.diff.gz
+CD8_3hr_activation_vs_CD8_48hr_activation.diff.microexons
+CD8_3hr_activation_vs_CD8_72hr_activation.ME.diff.gz
+CD8_3hr_activation_vs_CD8_72hr_activation.diff.ME.microexons
+CD8_3hr_activation_vs_CD8_72hr_activation.diff.gz
+CD8_3hr_activation_vs_CD8_72hr_activation.diff.microexons
+CD8_3hr_activation_vs_CD8_7day_activation.ME.diff.gz
+CD8_3hr_activation_vs_CD8_7day_activation.diff.ME.microexons
+CD8_3hr_activation_vs_CD8_7day_activation.diff.gz
+CD8_3hr_activation_vs_CD8_7day_activation.diff.microexons
+CD8_48hr_activation_vs_CD8_72hr_activation.ME.diff.gz
+CD8_48hr_activation_vs_CD8_72hr_activation.diff.ME.microexons
+CD8_48hr_activation_vs_CD8_72hr_activation.diff.gz
+CD8_48hr_activation_vs_CD8_72hr_activation.diff.microexons
+CD8_48hr_activation_vs_CD8_7day_activation.ME.diff.gz
+CD8_48hr_activation_vs_CD8_7day_activation.diff.ME.microexons
+CD8_48hr_activation_vs_CD8_7day_activation.diff.gz
+CD8_48hr_activation_vs_CD8_7day_activation.diff.microexons
+CD8_72hr_activation_vs_CD8_7day_activation.ME.diff.gz
+CD8_72hr_activation_vs_CD8_7day_activation.diff.ME.microexons
+CD8_72hr_activation_vs_CD8_7day_activation.diff.gz
+CD8_72hr_activation_vs_CD8_7day_activation.diff.microexons
+CD8_Ctrl_vs_CD8_12hr_activation.ME.diff.gz
+CD8_Ctrl_vs_CD8_12hr_activation.diff.ME.microexons
+CD8_Ctrl_vs_CD8_12hr_activation.diff.gz
+CD8_Ctrl_vs_CD8_12hr_activation.diff.microexons
+CD8_Ctrl_vs_CD8_24hr_activation.ME.diff.gz
+CD8_Ctrl_vs_CD8_24hr_activation.diff.ME.microexons
+CD8_Ctrl_vs_CD8_24hr_activation.diff.gz
+CD8_Ctrl_vs_CD8_24hr_activation.diff.microexons
+CD8_Ctrl_vs_CD8_3hr_activation.ME.diff.gz
+CD8_Ctrl_vs_CD8_3hr_activation.diff.ME.microexons
+CD8_Ctrl_vs_CD8_3hr_activation.diff.gz
+CD8_Ctrl_vs_CD8_3hr_activation.diff.microexons
+CD8_Ctrl_vs_CD8_48hr_activation.ME.diff.gz
+CD8_Ctrl_vs_CD8_48hr_activation.diff.ME.microexons
+CD8_Ctrl_vs_CD8_48hr_activation.diff.gz
+CD8_Ctrl_vs_CD8_48hr_activation.diff.microexons
+CD8_Ctrl_vs_CD8_72hr_activation.ME.diff.gz
+CD8_Ctrl_vs_CD8_72hr_activation.diff.ME.microexons
+CD8_Ctrl_vs_CD8_72hr_activation.diff.gz
+CD8_Ctrl_vs_CD8_72hr_activation.diff.microexons
+CD8_Ctrl_vs_CD8_7day_activation.ME.diff.gz
+CD8_Ctrl_vs_CD8_7day_activation.diff.ME.microexons
+CD8_Ctrl_vs_CD8_7day_activation.diff.gz
+CD8_Ctrl_vs_CD8_7day_activation.diff.microexons
+CD8_ctrl_vs_CD8_30min_activation.ME.diff.gz
+CD8_ctrl_vs_CD8_30min_activation.diff.ME.microexons
+CD8_ctrl_vs_CD8_30min_activation.diff.gz
+CD8_ctrl_vs_CD8_30min_activation.diff.microexons
