@@ -1,6 +1,6 @@
 # CD8 Microexon Analysis
 
-Reproducible computational protocol for microexon discovery and paired-end splicing quantification in a public human CD8+ T-cell activation RNA-seq time course.
+Microexon discovery and paired-end splicing analysis of a public human CD8+ T-cell activation RNA-seq time course.
 
 The analysis uses **MicroExonator** for microexon discovery and microexon PSI estimation, then uses a microexon-augmented **Whippet** index for paired-end event-level splicing quantification and control-versus-activation differential analysis.
 
@@ -57,7 +57,7 @@ Ctrl n=3 vs activation n=3
 - `provenance/` — software, reference, and run provenance retained from the analysis
 - `docs/` — rendered Quarto HTML output after `quarto render`
 
-## Important interpretation note
+## Analysis note
 
 The paired-end Whippet `.psi.gz` and `.diff.gz` files are **general Whippet splicing-event tables**, not microexon-only tables. Microexon-specific downstream interpretation must therefore intersect or map Whippet events to the high-confidence MicroExonator microexon set.
 
@@ -69,4 +69,4 @@ See [protocol.qmd](protocol.qmd). After rendering with Quarto, the HTML version 
 
 ## Status
 
-This repository is currently being prepared as a reproducible public-facing protocol. The `protocol-draft` branch contains the first cleaned draft derived from the executed server analysis.
+The `protocol-draft` branch contains the working version of the protocol and associated analysis scripts.
