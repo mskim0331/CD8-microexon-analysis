@@ -1,16 +1,18 @@
 # Provenance
 
-This directory retains compact records needed to identify the computational environment and source state used for the analysis.
+This directory retains compact, public-facing records needed to identify the computational state used for the analysis.
 
-Recommended public files:
+- `microexonator_commit.txt` — exact MicroExonator source commit
+- `software_versions.txt` — principal operating-system and software versions
+- `reference_resources.txt` — reference filenames, release identifiers, and recorded file sizes
+- `analysis_summary.txt` — final input/output counts and comparison design
 
-- `microexonator_commit.txt` — exact MicroExonator commit
-- `system_and_software_versions.txt` — operating system and principal software versions
-- `reference_manifest.txt` — reference file names and original file sizes
-- `analysis_manifest.txt` — counts and names of principal outputs
+The original server archive contained additional machine-specific manifests, absolute paths, logs, and temporary source snapshots. Those materials were used to prepare the protocol but are not required in the final public repository.
 
-Files that expose server-specific working paths or large internal inventories can be removed after the protocol has been finalized.
+## Whippet source-state caveat
 
-## Reproducibility caveat
-
-The server snapshot reports Whippet v1.6.2 at git commit `f9cf2e4270af96361670b8b74b13476b3fe18529`, but the Whippet working tree contained local modifications to `src/quant.jl` and `test/test_index.jls`. The exact Whippet diff was not included in the current archive. This must be resolved before claiming a bit-for-bit Whippet source specification.
+The archived server state reported Whippet v1.6.2 at commit
+`f9cf2e4270af96361670b8b74b13476b3fe18529`, but the Whippet working tree
+contained local modifications to `src/quant.jl` and `test/test_index.jls`.
+The exact diff was not captured in the uploaded archive. The final release
+should either recover that diff or state this limitation explicitly.
