@@ -1,0 +1,32 @@
+EXECUTED ANALYSIS SUMMARY
+
+Input structure
+- 48 registered FASTQ files
+- 24 biological R1/R2 pairs
+- 8 conditions
+- 3 biological replicates per condition
+
+MicroExonator outputs
+- Report/out.high_quality.txt
+  - 657 lines including header in the archived run
+- Report/out_filtered_ME.PSI.txt
+  - 140,401 lines including header in the archived run
+- Report/out.high_quality.gtf
+
+Paired-end Whippet outputs
+- 24 biological-sample .psi.gz files
+
+Differential comparisons
+- 7 .diff.gz files
+- Ctrl vs 30 min
+- Ctrl vs 3 h
+- Ctrl vs 12 h
+- Ctrl vs 24 h
+- Ctrl vs 48 h
+- Ctrl vs 72 h
+- Ctrl vs 7 d
+
+Interpretation
+- A = Ctrl
+- B = activation
+- DeltaPsi = Psi_A - Psi_B
