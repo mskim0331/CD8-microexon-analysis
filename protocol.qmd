@@ -27,7 +27,9 @@ The paired-end Whippet `.psi.gz` and `.diff.gz` outputs contain general Whippet 
 
 # Experimental design
 
-The public dataset is **GSE247647**. The analysis uses paired-end bulk RNA-seq from human CD8+ T cells across eight conditions:
+The public dataset is **GSE247647**, *Cell state and transcription factor modulation during extended CD8+ T-cell expansion ex vivo* (NCBI GEO; BioProject **PRJNA1039860**). The full GEO series contains 51 samples. This analysis uses the first 24 time-course samples: naïve human CD8+ T cells at baseline and cells collected at seven time points after anti-CD3/CD28 activation. Each selected time point has three bulk RNA-seq replicates.
+
+The analysis subset contains eight conditions:
 
 | Condition | Time | Biological replicates |
 |---|---:|---:|
