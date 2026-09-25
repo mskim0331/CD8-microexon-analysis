@@ -6,7 +6,7 @@ The analysis uses **MicroExonator** for microexon discovery and microexon PSI es
 
 ## Study design
 
-- Dataset: **GSE247647**
+- Dataset: **GSE247647** (24-sample activation time-course subset of the full 51-sample GEO series)
 - Material: human CD8+ T-cell bulk RNA-seq
 - Design: control plus seven activation time points
 - Time points: 30 min, 3 h, 12 h, 24 h, 48 h, 72 h, and 7 d
