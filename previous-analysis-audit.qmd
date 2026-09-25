@@ -1,0 +1,62 @@
+---
+title: "Methodological Audit of the Previous Whippet Analysis"
+subtitle: "Separated from the primary reproducible protocol"
+format:
+  html:
+    toc: true
+    number-sections: true
+---
+
+# Scope
+
+This document records the methodological feature of the earlier Whippet analysis that motivated the paired-end reanalysis. It is intentionally separated from the primary protocol so that the main workflow contains only the final analysis procedure.
+
+# Previous input structure
+
+The archived previous `whippet_delta.yaml` supplied forward and reverse read outputs separately to each condition. For example, the control group for the 30 min comparison was specified as:
+
+```yaml
+A : CD8_ctrl_1,CD8_ctrl_1_R,CD8_ctrl_2,CD8_ctrl_2_R,CD8_ctrl_3,CD8_ctrl_3_R
+```
+
+The corresponding activation group was likewise represented by six read-direction-specific inputs.
+
+The archived previous `Whippet_quant.smk` also invoked `whippet-quant.jl` on one FASTQ file at a time:
+
+```bash
+whippet-quant.jl {input[0]} -x <index> -o <output>
+```
+
+Thus, R1 and R2 from the same biological library were quantified separately before differential analysis.
+
+# Experimental-unit definition used in the reanalysis
+
+R1 and R2 are paired sequencing reads from the same biological library and do not represent independent biological replicates. The cleaned analysis therefore uses the two mates jointly in a single Whippet quantification:
+
+```bash
+whippet-quant.jl sample_R1.fastq.gz sample_R2.fastq.gz \
+  -x Whippet/Index/whippet.jls \
+  -o Whippet_Paired/Quant/sample
+```
+
+This produces one `.psi.gz` file per biological sample. Differential comparisons then use three biological-sample PSI files for control and three biological-sample PSI files for each activation time point.
+
+# Scope of the revised comparisons
+
+The earlier archive contained all pairwise time-point comparisons. The cleaned reanalysis uses seven baseline-referenced comparisons only:
+
+```text
+Ctrl vs 30 min
+Ctrl vs 3 h
+Ctrl vs 12 h
+Ctrl vs 24 h
+Ctrl vs 48 h
+Ctrl vs 72 h
+Ctrl vs 7 d
+```
+
+This design is suitable for describing change relative to the control baseline. It does not directly test differences between adjacent activated time points.
+
+# Archive disposition
+
+The raw audit files were retained only to document how the earlier input structure was identified. They are not required to execute the primary analysis and may be removed from the final public repository once this audit document has been accepted.
