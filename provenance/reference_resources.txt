@@ -1,0 +1,23 @@
+REFERENCE RESOURCE MANIFEST
+
+Genome FASTA
+- Homo_sapiens.GRCh38.dna.primary_assembly.fa
+- recorded size: 3,151,425,851 bytes
+- assembly: GRCh38
+- naming convention in the executed FASTA: Ensembl-style chromosome names
+
+Gene annotation
+- Homo_sapiens.GRCh38.114.gtf
+- recorded size: 1,747,618,282 bytes
+- Ensembl release: 114
+- assembly: GRCh38
+
+Conservation
+- hg38.phyloP100way.bw
+- recorded size: 9,870,053,206 bytes
+- UCSC hg38 100-way phyloP BigWig
+- naming convention: UCSC-style chromosome names
+
+The MicroExonator compatibility patch converts chromosome identifiers before
+BigWig queries so that Ensembl FASTA/GTF chromosome naming can be used with the
+UCSC conservation track.
