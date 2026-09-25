@@ -1,0 +1,534 @@
+---
+title: "Reproducible Microexon Analysis of Human CD8+ T-cell Activation RNA-seq"
+subtitle: "MicroExonator discovery, microexon PSI estimation, and paired-end Whippet differential splicing analysis"
+author: "Minseo Kim"
+date: "2026-09-24"
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    code-copy: true
+    code-overflow: wrap
+---
+
+# Overview
+
+This protocol documents a reproducible computational workflow for identifying and quantifying microexons in a public human CD8+ T-cell activation RNA-seq time course. The workflow separates two complementary tasks:
+
+1. **MicroExonator** is used to discover high-confidence microexons and estimate microexon-specific PSI from splice-junction evidence.
+2. **Whippet** is then run in paired-end mode against a microexon-augmented splice graph to obtain one event-level PSI file per biological sample and to compare control samples with each activation time point.
+
+The protocol intentionally records only the final analysis procedure. Historical trial-and-error and the earlier read-direction-specific analysis are excluded from the primary workflow. A separate methodological audit is provided in `previous-analysis-audit.qmd`.
+
+::: {.callout-important}
+The paired-end Whippet `.psi.gz` and `.diff.gz` outputs contain general Whippet splicing events. They are not microexon-only tables. Microexon-specific downstream interpretation requires mapping these Whippet events to the high-confidence MicroExonator microexon set.
+:::
+
+# Experimental design
+
+The public dataset is **GSE247647**. The analysis uses paired-end bulk RNA-seq from human CD8+ T cells across eight conditions:
+
+| Condition | Time | Biological replicates |
+|---|---:|---:|
+| Control | 0 h | 3 |
+| Activation | 30 min | 3 |
+| Activation | 3 h | 3 |
+| Activation | 12 h | 3 |
+| Activation | 24 h | 3 |
+| Activation | 48 h | 3 |
+| Activation | 72 h | 3 |
+| Activation | 7 d | 3 |
+
+This gives 24 biological samples and 48 FASTQ files.
+
+The SRA run accessions used in the analysis were `SRR26818905` through `SRR26818928`. The exact run-to-sample mapping is provided in `config/local_samples.example.tsv`.
+
+# Computational environment
+
+The executed analysis was recorded on Ubuntu 22.04.3 LTS. Principal software versions were:
+
+| Component | Version / commit |
+|---|---|
+| MicroExonator | commit `3f8d4aa9c8ace8d1fcc99e8e5cb14f782eccb5c6` |
+| Snakemake | 3.12.0 |
+| Python | 3.6.7 in the Snakemake environment |
+| Julia | 1.6.5 |
+| Conda | 25.5.1 |
+| SRA Toolkit | 2.11.3 |
+| Whippet | executable reported v1.6.2 |
+| Whippet repository | commit `f9cf2e4270af96361670b8b74b13476b3fe18529` |
+
+::: {.callout-warning}
+The archived server state shows local modifications in the Whippet repository, including `src/quant.jl`. The exact Whippet diff was not captured in the archive. Until that source difference is recovered or shown to be irrelevant, the Whippet source state should not be described as bit-for-bit reproducible from the commit alone.
+:::
+
+Detailed environment records are retained in `provenance/system_and_software_versions.txt`.
+
+# Recommended project layout
+
+A portable analysis directory can be organized as follows:
+
+```text
+project/
+├── data/
+│   ├── raw_fastq/
+│   └── whippet_paired_clean/
+├── reference/
+├── external/
+│   ├── MicroExonator/
+│   └── Whippet.jl/
+├── config/
+│   ├── config.yaml
+│   ├── local_samples.tsv
+│   └── Paired_samples.tsv
+├── scripts/
+├── patches/
+└── results/
+```
+
+Raw sequencing data, reference genomes, indices, and large analysis outputs should remain outside Git version control.
+
+# Obtain the RNA-seq data
+
+The original analysis used SRA Toolkit 2.11.3. The sample registry in `config/local_samples.example.tsv` defines the exact 48 FASTQ files and their analysis labels.
+
+A path-neutral download pattern is:
+
+```bash
+mkdir -p data/raw_fastq
+
+for SRR in $(seq 26818905 26818928 | sed 's/^/SRR/'); do
+    prefetch "$SRR"
+    fasterq-dump "$SRR" \
+        --split-files \
+        --outdir data/raw_fastq
+    gzip data/raw_fastq/${SRR}_1.fastq
+    gzip data/raw_fastq/${SRR}_2.fastq
+done
+```
+
+After download, verify that every run produced two compressed FASTQ files and that the resulting paths correspond to the 48 entries in `local_samples.tsv`.
+
+::: {.callout-note}
+The server archive retains SRA Toolkit version information and the final FASTQ-to-sample mapping, but not the exact historical download shell command. The command above is the reproducible acquisition equivalent and should be validated against the current SRA Toolkit installation before a final frozen release.
+:::
+
+# Prepare reference resources
+
+The analysis used the following human GRCh38 resources:
+
+```text
+Homo_sapiens.GRCh38.dna.primary_assembly.fa
+Homo_sapiens.GRCh38.114.gtf
+hg38.phyloP100way.bw
+```
+
+The FASTA and GTF use Ensembl-style chromosome identifiers, whereas the conservation BigWig uses UCSC-style `chr` prefixes. The MicroExonator compatibility patch described below harmonizes chromosome names when querying the BigWig.
+
+The archived file sizes are recorded in `provenance/reference_manifest.txt`.
+
+# Install and pin MicroExonator
+
+Clone the upstream repository and pin the exact source commit used in the analysis:
+
+```bash
+git clone https://github.com/hemberg-lab/MicroExonator.git external/MicroExonator
+cd external/MicroExonator
+
+git checkout 3f8d4aa9c8ace8d1fcc99e8e5cb14f782eccb5c6
+```
+
+Apply the minimal compatibility patch retained in this repository:
+
+```bash
+git apply ../../patches/microexonator_required_compatibility.patch
+```
+
+The patch contains four classes of compatibility changes:
+
+1. relax obsolete build-specific Conda pins while retaining Python 3.6 and samtools 1.9;
+2. assign the Python 2-containing MicroExonator environment to the GTF-to-BED12 conversion rule;
+3. replace an invalid AWK regular-expression test in the Round2 Bowtie processing rule;
+4. map Ensembl chromosome names to UCSC-style BigWig chromosome names for conservation queries.
+
+These changes are compatibility modifications only; they do not alter the intended biological analysis parameters.
+
+# Configure sample registries
+
+## FASTQ registry
+
+`local_samples.tsv` contains two columns:
+
+```text
+path    sample
+```
+
+Each FASTQ file receives a unique read-direction label. For example:
+
+```text
+data/raw_fastq/SRR26818928_1.fastq.gz    CD8_ctrl_1
+data/raw_fastq/SRR26818928_2.fastq.gz    CD8_ctrl_1_R
+```
+
+The complete portable example is provided in `config/local_samples.example.tsv`.
+
+## Biological R1/R2 registry
+
+`Paired_samples.tsv` defines which two FASTQ labels originate from the same biological library:
+
+```text
+CD8_ctrl_1    CD8_ctrl_1_R
+CD8_ctrl_2    CD8_ctrl_2_R
+CD8_ctrl_3    CD8_ctrl_3_R
+...
+```
+
+There are 24 rows, corresponding to 24 biological samples.
+
+This file serves two purposes:
+
+- MicroExonator can combine R1/R2-derived junction evidence when calculating its microexon PSI output.
+- The paired-end Whippet scripts use the same pairing definition to pass both mates jointly to `whippet-quant.jl`.
+
+# Configure MicroExonator
+
+Start from `config/config.example.yaml` and replace the placeholder paths. The analysis parameters were:
+
+```yaml
+Genome_fasta : /path/to/reference/Homo_sapiens.GRCh38.dna.primary_assembly.fa
+Gene_anontation_GTF : /path/to/reference/Homo_sapiens.GRCh38.114.gtf
+
+GT_AG_U2_5 : NA
+GT_AG_U2_3 : NA
+
+conservation_bigwig : /path/to/reference/hg38.phyloP100way.bw
+
+working_directory : /path/to/MicroExonator/
+
+ME_len : 30
+Optimize_hard_drive : F
+min_number_files_detected : 3
+
+julia : /path/to/julia
+whippet_bin_folder : /path/to/Whippet.jl/bin
+
+paired_samples : /path/to/config/Paired_samples.tsv
+min_reads_PSI : 5
+```
+
+`ME_DB` was not explicitly set in the executed configuration. At the pinned MicroExonator commit, omission of this key causes MicroExonator to use its upstream default `touch/VastDb.bed12`.
+
+Place or link `config.yaml`, `local_samples.tsv`, and `Paired_samples.tsv` into the MicroExonator working directory in the locations expected by the workflow.
+
+# Validate the workflow before execution
+
+Run a Snakemake dry run before launching compute-intensive steps:
+
+```bash
+cd external/MicroExonator
+
+snakemake \
+    -s MicroExonator.smk \
+    --use-conda \
+    -n \
+    -p \
+    quant \
+    Whippet/Index/whippet.jls
+```
+
+The cleaned protocol requests the MicroExonator `quant` target and the Whippet index explicitly. It does **not** request the upstream single-FASTQ Whippet quantification targets.
+
+# Run MicroExonator discovery and microexon PSI quantification
+
+Execute MicroExonator with rule-specific Conda environments:
+
+```bash
+snakemake \
+    -s MicroExonator.smk \
+    --use-conda \
+    -k \
+    -j 30 \
+    quant \
+    Whippet/Index/whippet.jls \
+    -p \
+    2>&1 | tee run_microexonator.log
+```
+
+The principal outputs are:
+
+```text
+Report/out.high_quality.txt
+Report/out_filtered_ME.PSI.txt
+Report/out.high_quality.gtf
+Whippet/Index/whippet.jls
+Whippet/Index/whippet.jls.exons.tab.gz
+```
+
+## High-confidence microexon table
+
+`Report/out.high_quality.txt` is the high-confidence MicroExonator microexon set. Columns in the executed output include:
+
+```text
+ME
+Transcript
+Total_coverage
+Total_SJs
+ME_coverages
+ME_length
+ME_seq
+ME_matches
+U2_score
+Mean_conservation
+P_MEs
+Total_ME
+ME_P_value
+ME_type
+```
+
+## MicroExonator PSI table
+
+`Report/out_filtered_ME.PSI.txt` contains sample-level microexon PSI and junction evidence. Its columns include:
+
+```text
+File
+ME_coords
+SJ_coords
+ME_coverages
+SJ_coverages
+PSI
+CI_Lo
+CI_Hi
+Alt5
+Alt3
+Alt5_coverages
+Alt3_coverages
+```
+
+With `paired_samples` configured, this table represents the 24 biological-sample pairings rather than treating R1 and R2 as independent biological replicates.
+
+# Why a pair-aware N-filtering step is used for Whippet
+
+During Whippet v1.6.2 quantification, reads containing the ambiguous base `N` are incompatible with the DNA alphabet implementation used by the executed build. The analysis therefore removes read pairs containing `N` before paired-end Whippet quantification.
+
+This is a **Whippet compatibility preprocessing step**, not a general read-quality filter.
+
+To preserve pairing, if either mate contains `N`, both mates are removed:
+
+```python
+if "N" in s1.upper() or "N" in s2.upper():
+    removed += 1
+    continue
+```
+
+Run:
+
+```bash
+python3 scripts/filter_whippet_paired_noN.py \
+    --pairs config/Paired_samples.tsv \
+    --input-dir external/MicroExonator/FASTQ \
+    --output-dir data/whippet_paired_clean \
+    --workers 6
+```
+
+The script reads R1 and R2 synchronously, checks for incomplete or unequal-length FASTQ streams, writes temporary files, and atomically replaces the final outputs only after a pair is processed successfully.
+
+# Paired-end Whippet quantification
+
+The Whippet index is built from the MicroExonator high-confidence GTF, so the splice graph includes the microexons discovered in the preceding workflow.
+
+Whippet's paired-end interface accepts the two mates in a single quantification command:
+
+```bash
+julia /path/to/Whippet.jl/bin/whippet-quant.jl \
+    sample_R1.fastq.gz \
+    sample_R2.fastq.gz \
+    -x external/MicroExonator/Whippet/Index/whippet.jls \
+    -o results/Whippet_Paired/Quant/sample
+```
+
+Run all 24 biological samples using:
+
+```bash
+python3 scripts/run_whippet_paired.py \
+    --pairs config/Paired_samples.tsv \
+    --input-dir data/whippet_paired_clean \
+    --output-dir results/Whippet_Paired/Quant \
+    --log-dir results/Whippet_Paired/logs \
+    --julia /path/to/julia \
+    --whippet-quant /path/to/Whippet.jl/bin/whippet-quant.jl \
+    --index external/MicroExonator/Whippet/Index/whippet.jls \
+    --workers 6
+```
+
+This generates one `.psi.gz` file per biological sample, for a total of 24 PSI files.
+
+A Whippet PSI table contains fields such as:
+
+```text
+Gene
+Node
+Coord
+Strand
+Type
+Psi
+CI_Width
+CI_Lo,Hi
+Total_Reads
+Complexity
+Entropy
+Inc_Paths
+Exc_Paths
+Edges
+```
+
+# Differential splicing analysis
+
+The primary differential design compares the three control biological replicates with the three biological replicates at each activated time point.
+
+The seven comparisons are:
+
+```text
+Ctrl vs 30 min
+Ctrl vs 3 h
+Ctrl vs 12 h
+Ctrl vs 24 h
+Ctrl vs 48 h
+Ctrl vs 72 h
+Ctrl vs 7 d
+```
+
+Run:
+
+```bash
+JULIA=/path/to/julia \
+WHIPPET_DELTA=/path/to/Whippet.jl/bin/whippet-delta.jl \
+QUANT_DIR=results/Whippet_Paired/Quant \
+OUTPUT_DIR=results/Whippet_Paired/Delta \
+bash scripts/run_paired_delta.sh
+```
+
+This produces seven `.diff.gz` files.
+
+The executed Whippet differential output contains:
+
+```text
+Gene
+Node
+Coord
+Strand
+Type
+Psi_A
+Psi_B
+DeltaPsi
+Probability
+Complexity
+Entropy
+```
+
+For every comparison in this protocol:
+
+```text
+A = Ctrl
+B = activation time point
+```
+
+The archived output confirms:
+
+```text
+DeltaPsi = Psi_A - Psi_B
+```
+
+Therefore:
+
+```text
+DeltaPsi > 0  -> lower inclusion after activation
+DeltaPsi < 0  -> higher inclusion after activation
+```
+
+`Probability` is Whippet's differential-splicing probability and must **not** be described as an adjusted p-value or FDR.
+
+# Output inventory
+
+The completed server analysis produced:
+
+| Output | Count |
+|---|---:|
+| Registered FASTQ files | 48 |
+| Biological R1/R2 pairs | 24 |
+| Paired-end Whippet PSI files | 24 |
+| Ctrl-vs-activation differential files | 7 |
+
+The executed MicroExonator run also produced:
+
+```text
+Report/out.high_quality.txt
+Report/out_filtered_ME.PSI.txt
+Report/out.high_quality.gtf
+```
+
+The archive records 657 lines in `out.high_quality.txt` including its header and 140,401 lines in `out_filtered_ME.PSI.txt`.
+
+# Downstream microexon-specific analysis
+
+The paired Whippet differential tables are not yet microexon-specific. A downstream analysis should map Whippet event coordinates/nodes to `Report/out.high_quality.txt` before selecting microexon candidates.
+
+A rigorous candidate-evaluation workflow can then combine:
+
+- MicroExonator microexon identity and PSI;
+- Whippet paired-end PSI;
+- Whippet `DeltaPsi`;
+- Whippet `Probability`;
+- agreement among three biological replicates;
+- concordance between MicroExonator PSI and Whippet PSI;
+- baseline-referenced temporal behavior across the seven activation time points.
+
+No FDR threshold is specified in this protocol because the current Whippet output does not contain an adjusted p-value column, and a multiple-testing strategy has not yet been finalized.
+
+# Reproducibility records
+
+The repository retains the following provenance records:
+
+```text
+provenance/microexonator_commit.txt
+provenance/system_and_software_versions.txt
+provenance/reference_manifest.txt
+provenance/analysis_manifest.txt
+```
+
+The exact MicroExonator compatibility changes are retained as:
+
+```text
+patches/microexonator_required_compatibility.patch
+```
+
+# Render the protocol
+
+From the repository root:
+
+```bash
+quarto render
+```
+
+The rendered HTML site is written to:
+
+```text
+docs/
+```
+
+The primary protocol page is:
+
+```text
+docs/protocol.html
+```
+
+# Notes for final release
+
+Before making the repository public:
+
+1. remove temporary server snapshots and audit source files that expose absolute server paths;
+2. resolve or archive the exact Whippet `src/quant.jl` modification;
+3. replace the server-path `config/config.yaml` with the portable example configuration;
+4. retain only compact provenance records needed for reproducibility;
+5. render and inspect the final Quarto HTML;
+6. decide whether the previous-analysis audit should remain in the public release.
