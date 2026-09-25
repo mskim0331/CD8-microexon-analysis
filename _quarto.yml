@@ -1,0 +1,22 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "CD8 Microexon Analysis"
+  navbar:
+    left:
+      - href: protocol.qmd
+        text: Protocol
+      - href: previous-analysis-audit.qmd
+        text: Previous-analysis audit
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    code-copy: true
+    code-overflow: wrap
+    anchor-sections: true
