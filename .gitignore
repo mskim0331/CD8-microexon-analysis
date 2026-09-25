@@ -1,0 +1,56 @@
+# Raw sequencing data
+*.fastq
+*.fastq.gz
+*.fq
+*.fq.gz
+
+# Alignment and index files
+*.sam
+*.bam
+*.bai
+*.jls
+*.jls.exons.tab.gz
+
+# Large analysis outputs
+*.psi.gz
+*.diff.gz
+*.tpm.gz
+*.jnc.gz
+*.map.gz
+
+# Local analysis directories
+FASTQ/
+FASTQ_whippet_clean/
+FASTQ_whippet_paired_clean/
+Round1/
+Round2/
+Report/
+Whippet/
+Whippet_Paired/
+data/
+results/
+external/
+
+# Snakemake / Conda / Python runtime files
+.snakemake/
+.quarto/
+__pycache__/
+*.pyc
+.conda/
+.env
+
+# Logs and archives
+*.log
+*.tar
+*.tar.gz
+*.zip
+
+# OS / editor files
+.DS_Store
+.vscode/
+.idea/
+
+# Temporary server-source bundle used while drafting this repository
+source_snapshot/
+audit_previous_analysis/
+README_BUNDLE.txt
