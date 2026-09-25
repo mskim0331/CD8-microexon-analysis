@@ -1,7 +1,9 @@
 ---
 title: "Reproducible Microexon Analysis of Human CD8+ T-cell Activation RNA-seq"
 subtitle: "MicroExonator discovery, microexon PSI estimation, and paired-end Whippet differential splicing analysis"
-author: "Minseo Kim"
+author:
+  - name: "Minseo Kim"
+    affiliation: "School of Biological Sciences, Seoul National University"
 date: "2026-09-24"
 format:
   html:
@@ -14,12 +16,9 @@ format:
 
 # Overview
 
-This protocol documents a reproducible computational workflow for identifying and quantifying microexons in a public human CD8+ T-cell activation RNA-seq time course. The workflow separates two complementary tasks:
+Microexons were identified with **MicroExonator** and quantified from splice-junction evidence. The high-confidence MicroExonator annotation was then used to build a Whippet splice graph. Whippet quantification was performed with R1 and R2 supplied together for each biological sample, followed by control-versus-activation comparisons at seven time points.
 
-1. **MicroExonator** is used to discover high-confidence microexons and estimate microexon-specific PSI from splice-junction evidence.
-2. **Whippet** is then run in paired-end mode against a microexon-augmented splice graph to obtain one event-level PSI file per biological sample and to compare control samples with each activation time point.
-
-The protocol intentionally records only the final analysis procedure. Historical trial-and-error and the earlier read-direction-specific analysis are excluded from the primary workflow. A separate methodological audit is provided in `previous-analysis-audit.qmd`.
+Only the final analysis procedure is described here. The earlier read-direction-specific analysis is documented separately in `previous-analysis-audit.qmd`.
 
 ::: {.callout-important}
 The paired-end Whippet `.psi.gz` and `.diff.gz` outputs contain general Whippet splicing events. They are not microexon-only tables. Microexon-specific downstream interpretation requires mapping these Whippet events to the high-confidence MicroExonator microexon set.
@@ -67,7 +66,7 @@ The archived server state shows local modifications in the Whippet repository, i
 
 Detailed environment records are retained in `provenance/system_and_software_versions.txt`.
 
-# Recommended project layout
+# Project layout
 
 A portable analysis directory can be organized as follows:
 
@@ -309,11 +308,11 @@ Alt3_coverages
 
 With `paired_samples` configured, this table represents the 24 biological-sample pairings rather than treating R1 and R2 as independent biological replicates.
 
-# Why a pair-aware N-filtering step is used for Whippet
+# Pair-aware filtering of reads containing N
 
 During Whippet v1.6.2 quantification, reads containing the ambiguous base `N` are incompatible with the DNA alphabet implementation used by the executed build. The analysis therefore removes read pairs containing `N` before paired-end Whippet quantification.
 
-This is a **Whippet compatibility preprocessing step**, not a general read-quality filter.
+This step was used only to satisfy the Whippet input constraint; it was not used as a general read-quality filter.
 
 To preserve pairing, if either mate contains `N`, both mates are removed:
 
@@ -524,7 +523,7 @@ The primary protocol page is:
 docs/protocol.html
 ```
 
-# Notes for final release
+# Release checklist
 
 Before making the repository public:
 
