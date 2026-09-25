@@ -1,0 +1,23 @@
+ANALYSIS ENVIRONMENT
+
+Operating system
+- Ubuntu 22.04.3 LTS
+
+MicroExonator
+- commit: 3f8d4aa9c8ace8d1fcc99e8e5cb14f782eccb5c6
+
+Workflow/runtime
+- Snakemake: 3.12.0
+- Python: 3.6.7 (Snakemake environment)
+- Julia: 1.6.5
+- Conda: 25.5.1
+- SRA Toolkit / fasterq-dump: 2.11.3
+
+Whippet
+- executable reported: v1.6.2
+- repository commit recorded on the server:
+  f9cf2e4270af96361670b8b74b13476b3fe18529
+- reproducibility note: the recorded Whippet working tree contained local
+  modifications in src/quant.jl and test/test_index.jls. The exact diff was not
+  present in the archived bundle and should be recovered before claiming a
+  bit-for-bit Whippet source specification.
