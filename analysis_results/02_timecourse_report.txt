@@ -1,0 +1,24 @@
+MICROEXON TIME-COURSE ANALYSIS - STEP 2
+
+Minimum valid replicates per group: 2/3
+Exploratory effect-size threshold: |delta PSI| >= 0.10
+Strong effect-size threshold: |delta PSI| >= 0.20
+
+Delta PSI convention: activation mean PSI - control mean PSI
+  positive = increased inclusion after activation
+  negative = decreased inclusion after activation
+
+Counts by time point:
+  30min: testable=555, |dPSI|>=0.10=64, |dPSI|>=0.20=26, strong+separated=8
+  3hr: testable=538, |dPSI|>=0.10=87, |dPSI|>=0.20=48, strong+separated=25
+  12hr: testable=532, |dPSI|>=0.10=103, |dPSI|>=0.20=65, strong+separated=49
+  24hr: testable=546, |dPSI|>=0.10=111, |dPSI|>=0.20=64, strong+separated=48
+  48hr: testable=519, |dPSI|>=0.10=116, |dPSI|>=0.20=69, strong+separated=53
+  72hr: testable=510, |dPSI|>=0.10=108, |dPSI|>=0.20=67, strong+separated=49
+  7day: testable=542, |dPSI|>=0.10=102, |dPSI|>=0.20=66, strong+separated=47
+
+Previous candidate recheck:
+  TRIM35 (8_-_27290155_27290178): max |dPSI|=0.3915 at 7day, dPSI=0.3915
+  CD47 (3_-_108050577_108050602): max |dPSI|=0.0516 at 12hr, dPSI=-0.0516
+  MAST3 (19_+_18122106_18122127): max |dPSI|=0.7143 at 72hr, dPSI=0.7143
+  GPBP1 (5_+_57221375_57221396): max |dPSI|=0.5501 at 48hr, dPSI=-0.5501
