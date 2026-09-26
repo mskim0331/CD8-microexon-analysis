@@ -15,37 +15,11 @@ The analysis uses **MicroExonator** for microexon discovery and microexon PSI es
 - Total biological samples: 24
 - Total FASTQ files: 48
 
-## Analysis overview
+## Analysis
 
-```text
-paired-end FASTQ
-        |
-        v
-MicroExonator discovery
-        |
-        +--> high-confidence microexon set
-        |
-        +--> MicroExonator microexon PSI
-        |
-        v
-microexon-augmented GTF
-        |
-        v
-Whippet index
-        |
-        v
-pair-aware removal of read pairs containing ambiguous N bases
-        |
-        v
-paired-end Whippet quantification
-(one PSI file per biological sample)
-        |
-        v
-Ctrl n=3 vs activation n=3
-        |
-        v
-7 Whippet differential comparisons
-```
+MicroExonator was used to identify high-confidence microexons and estimate microexon-specific PSI values from the paired-end RNA-seq data. The resulting high-confidence annotation was incorporated into a Whippet index.
+
+For Whippet quantification, read pairs containing an ambiguous `N` base were removed in a pair-preserving manner, and R1 and R2 were quantified together for each biological sample. Differential splicing was then evaluated for control samples versus each of the seven activation time points using three biological replicates per group.
 
 ## Repository contents
 
