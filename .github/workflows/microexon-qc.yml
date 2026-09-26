@@ -57,5 +57,6 @@ jobs:
             echo "No analysis output changes to commit."
           else
             git commit -m "Generate MicroExonator QC results"
-            git push
+            git pull --rebase origin analysis-work
+            git push origin analysis-work
           fi
