@@ -186,7 +186,7 @@ def main():
         spearman = np.nan
         if n_complete >= 3:
             pearson = x[valid].corr(y[valid], method="pearson")
-            spearman = x[valid].corr(y[valid], method="spearman")
+            spearman = x[valid].rank().corr(y[valid].rank(), method="pearson")
 
         corr_records.append({
             "sample_1": s1,
