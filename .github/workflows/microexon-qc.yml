@@ -6,6 +6,7 @@ on:
       - analysis-work
     paths:
       - "analysis/01_build_microexon_qc.py"
+      - "analysis/02_summarize_timecourse.py"
       - "out.high_quality.txt"
       - "out_filtered_ME.PSI.txt"
       - ".github/workflows/microexon-qc.yml"
@@ -37,7 +38,14 @@ jobs:
             --psi out_filtered_ME.PSI.txt \
             --outdir analysis_results
 
-      - name: Commit generated QC tables
+      - name: Summarize the time course
+        run: |
+          python analysis/02_summarize_timecourse.py \
+            --matrix analysis_results/01_high_quality_PSI_matrix.tsv \
+            --annotation analysis_results/01_high_quality_annotation.tsv \
+            --outdir analysis_results
+
+      - name: Commit generated analysis tables
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
