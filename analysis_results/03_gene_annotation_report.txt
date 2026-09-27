@@ -1,0 +1,13 @@
+MICROEXON GENE ANNOTATION - STEP 3
+
+Input microexons: 656
+Unique transcript IDs requested: 588
+Transcript IDs mapped in GTF: 588
+Transcript IDs missing from GTF: 0
+Microexons with gene_id: 656
+Microexons with gene_name: 644
+Microexons mapping to more than one gene: 0
+
+Mapping logic:
+  microexon -> MicroExonator transcript ID -> Ensembl GTF transcript record
+  -> gene_id and gene_name
