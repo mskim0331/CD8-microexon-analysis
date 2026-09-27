@@ -132,7 +132,7 @@ def whippet_row_to_microexon_id(row, node_exons):
 
     key = (row["Gene"], row["Node"])
     if key not in node_exons:
-        return exon_id
+        return None
 
     potential_exon, _ = node_exons[key]
 
@@ -183,7 +183,7 @@ def extract_whippet_candidates(diff_path, timepoint, candidate_mes, node_exons):
 
         for row in reader:
             me = whippet_row_to_microexon_id(row, node_exons)
-            if me not in candidate_mes:
+            if me is None or me not in candidate_mes:
                 continue
 
             raw_delta = pd.to_numeric(row["DeltaPsi"], errors="coerce")
