@@ -84,7 +84,7 @@ whippet_validation_inputs/   exon table and seven Ctrl-vs-activation Whippet dif
 .github/workflows/           reproducible downstream GitHub Actions workflows
 ```
 
-See `analysis/README.md` for the downstream analysis commands and output definitions.
+See `SERVER_WORKFLOW.md` for the upstream server processing and `analysis/README.md` for the downstream analysis commands and output definitions.
 
 ## Server-side MicroExonator analysis
 
