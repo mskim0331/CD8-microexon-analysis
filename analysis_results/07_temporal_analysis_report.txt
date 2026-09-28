@@ -16,6 +16,12 @@ Temporal clustering:
 Chosen number of temporal clusters: 2
 Mean silhouette score: 0.3212277575900155
 
+For timing-oriented interpretation, a second heatmap orders rows by
+the first timepoint meeting the existing Step 5 criteria:
+valid comparison, |DeltaPSI| >= 0.20, and complete group separation.
+This uses no new response threshold and makes early versus late onset
+directly visible without forcing extra temporal clusters.
+
 The heatmap displays raw MicroExonator DeltaPSI values for all matched
 candidate microexons. Gray cells indicate comparisons that did not meet
 the Step 2 minimum-valid-replicate requirement.
