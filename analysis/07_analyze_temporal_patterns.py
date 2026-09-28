@@ -356,6 +356,38 @@ def main():
         index=False,
     )
 
+    onset_rows = []
+    for tp in TIMEPOINT_ORDER:
+        sub = meta.loc[meta["first_strong_separated_timepoint"] == tp]
+        onset_rows.append({
+            "first_strong_timepoint": tp,
+            "n_microexons": len(sub),
+            "n_peak_increase": int((sub["dominant_direction"] == "increase").sum()),
+            "n_peak_decrease": int((sub["dominant_direction"] == "decrease").sum()),
+        })
+    onset_summary = pd.DataFrame(onset_rows)
+    onset_summary.to_csv(
+        outdir / "07_first_strong_response_summary.tsv",
+        sep="\t",
+        index=False,
+    )
+
+    peak_rows = []
+    for tp in TIMEPOINT_ORDER:
+        sub = meta.loc[meta["peak_timepoint"] == tp]
+        peak_rows.append({
+            "peak_timepoint": tp,
+            "n_microexons": len(sub),
+            "n_peak_increase": int((sub["dominant_direction"] == "increase").sum()),
+            "n_peak_decrease": int((sub["dominant_direction"] == "decrease").sum()),
+        })
+    peak_summary = pd.DataFrame(peak_rows)
+    peak_summary.to_csv(
+        outdir / "07_peak_time_summary.tsv",
+        sep="\t",
+        index=False,
+    )
+
     heat = matrix.loc[ordered_mes]
     label_df = sort_meta.set_index("ME")
     row_labels = []
@@ -414,6 +446,75 @@ def main():
     fig.savefig(outdir / "07_temporal_heatmap.svg", bbox_inches="tight")
     plt.close(fig)
 
+    onset_meta = meta.copy()
+    onset_meta["onset_order"] = onset_meta[
+        "first_strong_separated_timepoint"
+    ].map(tp_index).fillna(999)
+    onset_meta["peak_order"] = onset_meta["peak_timepoint"].map(tp_index).fillna(999)
+    onset_meta["direction_order"] = onset_meta["dominant_direction"].map(
+        {"increase": 0, "decrease": 1, "zero": 2, "missing": 3}
+    ).fillna(9)
+    onset_meta["gene_sort"] = onset_meta["gene_name"].fillna("")
+    onset_meta = onset_meta.sort_values(
+        ["onset_order", "direction_order", "peak_order", "gene_sort", "ME"]
+    )
+    onset_mes = onset_meta["ME"].tolist()
+    onset_heat = matrix.loc[onset_mes]
+    onset_labels = []
+    onset_label_df = onset_meta.set_index("ME")
+    for me in onset_mes:
+        g = onset_label_df.loc[me, "gene_name"]
+        gid = onset_label_df.loc[me, "gene_id"]
+        if pd.isna(g) or str(g).strip() == "":
+            g = gid if not pd.isna(gid) else "unannotated"
+        onset_labels.append(f"{g} | {me}")
+
+    onset_arr = onset_heat.to_numpy(dtype=float)
+    fig, ax = plt.subplots(figsize=(11, fig_h))
+    im = ax.imshow(
+        np.ma.masked_invalid(onset_arr),
+        aspect="auto",
+        interpolation="nearest",
+        cmap=cmap,
+        norm=norm,
+    )
+    ax.set_xticks(np.arange(len(TIMEPOINT_ORDER)))
+    ax.set_xticklabels(["30 min", "3 h", "12 h", "24 h", "48 h", "72 h", "7 d"])
+    ax.set_yticks(np.arange(len(onset_labels)))
+    ax.set_yticklabels(onset_labels, fontsize=6)
+    ax.set_xlabel("Time after CD3/CD28 activation")
+    ax.set_ylabel("Whippet-matched candidate microexons")
+    ax.set_title(
+        f"Temporal microexon ΔPSI patterns (n={len(onset_mes)})\n"
+        "Rows ordered by first strong reproducible response"
+    )
+
+    onset_groups = onset_meta["first_strong_separated_timepoint"].to_numpy()
+    for i in range(1, len(onset_groups)):
+        if onset_groups[i] != onset_groups[i - 1]:
+            ax.axhline(i - 0.5, color="black", linewidth=1.0)
+
+    cbar = fig.colorbar(im, ax=ax, fraction=0.025, pad=0.02)
+    cbar.set_label("ΔPSI (Activation − Control)")
+    ax.legend(
+        handles=[Patch(facecolor="#d9d9d9", edgecolor="none", label="Insufficient coverage / NA")],
+        loc="upper left",
+        bbox_to_anchor=(1.02, 1.0),
+        frameon=False,
+        fontsize=8,
+    )
+    fig.tight_layout()
+    fig.savefig(
+        outdir / "07_temporal_heatmap_by_onset.png",
+        dpi=300,
+        bbox_inches="tight",
+    )
+    fig.savefig(
+        outdir / "07_temporal_heatmap_by_onset.svg",
+        bbox_inches="tight",
+    )
+    plt.close(fig)
+
     fig, ax = plt.subplots(figsize=(10, 6))
     x = np.arange(len(TIMEPOINT_ORDER))
     for cluster in sorted(meta["temporal_cluster"].unique()):
@@ -468,6 +569,12 @@ def main():
         "  the highest mean silhouette score is selected.",
         f"Chosen number of temporal clusters: {chosen_k}",
         f"Mean silhouette score: {silhouette}",
+        "",
+        "For timing-oriented interpretation, a second heatmap orders rows by",
+        "the first timepoint meeting the existing Step 5 criteria:",
+        "valid comparison, |DeltaPSI| >= 0.20, and complete group separation.",
+        "This uses no new response threshold and makes early versus late onset",
+        "directly visible without forcing extra temporal clusters.",
         "",
         "The heatmap displays raw MicroExonator DeltaPSI values for all matched",
         "candidate microexons. Gray cells indicate comparisons that did not meet",

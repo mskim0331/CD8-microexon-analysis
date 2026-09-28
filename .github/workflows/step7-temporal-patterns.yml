@@ -65,8 +65,12 @@ jobs:
             analysis_results/07_temporal_clusters.tsv \
             analysis_results/07_temporal_cluster_summary.tsv \
             analysis_results/07_cluster_number_silhouette.tsv \
+            analysis_results/07_first_strong_response_summary.tsv \
+            analysis_results/07_peak_time_summary.tsv \
             analysis_results/07_temporal_heatmap.png \
             analysis_results/07_temporal_heatmap.svg \
+            analysis_results/07_temporal_heatmap_by_onset.png \
+            analysis_results/07_temporal_heatmap_by_onset.svg \
             analysis_results/07_temporal_cluster_trajectories.png \
             analysis_results/07_temporal_cluster_trajectories.svg \
             analysis_results/07_temporal_analysis_report.txt \
