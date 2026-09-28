@@ -1,0 +1,16 @@
+diff --git a/src/quant.jl b/src/quant.jl
+index 086a379..79650ab 100644
+--- a/src/quant.jl
++++ b/src/quant.jl
+@@ -722,7 +722,7 @@ function gene_em!( quant::GraphLibQuant, ambig::MultiMapping{C,R};
+ 
+    count_temp = ones(length(quant.count))
+    tpm_temp   = ones(length(quant.count))
+-   prop_temp  = zeros( 500 )
++   prop_temp  = zeros( 10000000 )
+    uniqsum    = sum(quant.count)
+    ambigsum   = length(ambig.map)
+ 
+diff --git a/test/test_index.jls b/test/test_index.jls
+index 5cf3880..90de7b4 100644
+Binary files a/test/test_index.jls and b/test/test_index.jls differ
