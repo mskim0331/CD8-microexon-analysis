@@ -1,0 +1,79 @@
+name: Step 7 final temporal summary
+
+on:
+  push:
+    branches:
+      - analysis-work
+    paths:
+      - ".github/workflows/step7-final-temporal.yml"
+      - "analysis/07_finalize_temporal_biology.py"
+      - "analysis_results/02_ctrl_vs_timepoint_deltaPSI.tsv"
+      - "analysis_results/02_strong_responses_complete_separation.tsv"
+      - "analysis_results/03_microexon_gene_annotation.tsv"
+      - "analysis_results/06_whippet_candidate_concordance.tsv"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  finalize-temporal:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out analysis-work
+        uses: actions/checkout@v4
+        with:
+          ref: analysis-work
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r analysis/requirements.txt
+          pip install matplotlib==3.10.6
+
+      - name: Run final temporal summary
+        run: |
+          python analysis/07_finalize_temporal_biology.py \
+            --timecourse analysis_results/02_ctrl_vs_timepoint_deltaPSI.tsv \
+            --step5 analysis_results/02_strong_responses_complete_separation.tsv \
+            --whippet analysis_results/06_whippet_candidate_concordance.tsv \
+            --gene-annotation analysis_results/03_microexon_gene_annotation.tsv \
+            --outdir analysis_results
+
+      - name: Check outputs
+        shell: bash
+        run: |
+          set -euo pipefail
+          for f in \
+            analysis_results/07_temporal_pattern_labels.tsv \
+            analysis_results/07_temporal_pattern_summary.tsv \
+            analysis_results/07_replicate_coverage_sensitivity.tsv \
+            analysis_results/07_replicate_coverage_sensitivity_overall.tsv \
+            analysis_results/07_data_driven_representative_candidates.tsv \
+            analysis_results/07_onset_phase_direction_counts.png \
+            analysis_results/07_onset_phase_direction_counts.svg \
+            analysis_results/07_representative_candidate_PSI_trajectories.png \
+            analysis_results/07_representative_candidate_PSI_trajectories.svg \
+            analysis_results/07_final_temporal_summary_report.txt
+          do
+            test -s "$f"
+          done
+
+      - name: Commit outputs
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add analysis_results/07_*
+          if git diff --cached --quiet; then
+            echo "No Step 7 final output changes."
+          else
+            git commit -m "Finalize Step 7 temporal response analysis [skip ci]"
+            git push origin HEAD:analysis-work
+          fi
