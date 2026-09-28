@@ -79,17 +79,15 @@ jobs:
             --delta-root whippet_validation_inputs/Delta \
             --outdir analysis_results
 
-      - name: Preserve duplicate-mapping diagnostic on failure
+      - name: Report duplicate-mapping diagnostic on failure
         if: steps.step6.outcome == 'failure'
         shell: bash
         run: |
           set -euo pipefail
-          test -s analysis_results/06_whippet_duplicate_mappings.tsv
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add analysis_results/06_whippet_duplicate_mappings.tsv
-          git commit -m "Save Step 6 duplicate mapping diagnostic [skip ci]"
-          git push origin "HEAD:$GITHUB_REF_NAME"
+          if [ -s analysis_results/06_whippet_duplicate_mappings.tsv ]; then
+            echo "Duplicate-mapping diagnostic:"
+            cat analysis_results/06_whippet_duplicate_mappings.tsv
+          fi
           exit 1
 
       - name: Check Step 6 outputs
@@ -102,23 +100,3 @@ jobs:
           test -s analysis_results/06_whippet_validation_report.txt
           echo "Step 6 outputs:"
           ls -lh analysis_results/06_whippet_*
-
-      - name: Commit Step 6 outputs
-        if: steps.step6.outcome == 'success'
-        shell: bash
-        run: |
-          set -euo pipefail
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add analysis_results/06_whippet_candidate_concordance.tsv
-          git add analysis_results/06_whippet_concordance_summary.tsv
-          git add analysis_results/06_whippet_validation_report.txt
-          if [ -s analysis_results/06_whippet_duplicate_mappings.tsv ]; then
-            git add analysis_results/06_whippet_duplicate_mappings.tsv
-          fi
-          if git diff --cached --quiet; then
-            echo "No Step 6 output changes to commit."
-          else
-            git commit -m "Run Step 6 Whippet validation [skip ci]"
-            git push origin "HEAD:$GITHUB_REF_NAME"
-          fi

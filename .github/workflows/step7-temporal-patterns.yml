@@ -78,17 +78,3 @@ jobs:
             test -s "$f"
           done
           ls -lh analysis_results/07_*
-
-      - name: Commit Step 7 outputs
-        shell: bash
-        run: |
-          set -euo pipefail
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add analysis_results/07_*
-          if git diff --cached --quiet; then
-            echo "No Step 7 output changes to commit."
-          else
-            git commit -m "Run Step 7 temporal pattern analysis [skip ci]"
-            git push origin "HEAD:$GITHUB_REF_NAME"
-          fi

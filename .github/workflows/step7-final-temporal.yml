@@ -62,17 +62,3 @@ jobs:
           do
             test -s "$f"
           done
-
-      - name: Commit outputs
-        shell: bash
-        run: |
-          set -euo pipefail
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add analysis_results/07_*
-          if git diff --cached --quiet; then
-            echo "No Step 7 final output changes."
-          else
-            git commit -m "Finalize Step 7 temporal response analysis [skip ci]"
-            git push origin "HEAD:$GITHUB_REF_NAME"
-          fi
