@@ -269,25 +269,77 @@ def main():
 
     whippet = pd.DataFrame(whippet_records)
 
-    # A microexon/timepoint should map to at most one Whippet event.
+    # The same genomic exon can appear under overlapping Whippet gene models.
+    # When this creates >1 Whippet row for the same ME/timepoint, resolve the
+    # ambiguity only if exactly one Whippet Gene matches the Ensembl gene_id
+    # assigned to that microexon in Step 3. This preserves the MicroExonator
+    # transcript/gene identity rather than choosing a Whippet event by effect
+    # size or Probability.
     if not whippet.empty:
         duplicate_mask = whippet.duplicated(
             subset=["ME", "timepoint"], keep=False
         )
         if duplicate_mask.any():
-            dup = whippet.loc[
-                duplicate_mask,
-                ["ME", "timepoint", "whippet_Gene", "whippet_Node", "whippet_Type"]
-            ]
-            dup.to_csv(
+            gene_id_by_me = (
+                gene.loc[:, ["ME", "gene_id"]]
+                .dropna(subset=["gene_id"])
+                .groupby("ME")["gene_id"]
+                .agg(lambda x: sorted(set(x.astype(str))))
+                .to_dict()
+            )
+
+            keep_indices = []
+            diagnostic_rows = []
+            unresolved_groups = []
+
+            for (me, tp), grp in whippet.groupby(
+                ["ME", "timepoint"], sort=False
+            ):
+                if len(grp) == 1:
+                    keep_indices.append(grp.index[0])
+                    continue
+
+                annotated_gene_ids = gene_id_by_me.get(me, [])
+                matching = grp.loc[
+                    grp["whippet_Gene"].astype(str).isin(annotated_gene_ids)
+                ]
+
+                selected_index = (
+                    matching.index[0] if len(matching) == 1 else None
+                )
+
+                for idx, row in grp.iterrows():
+                    diagnostic_rows.append({
+                        "ME": me,
+                        "timepoint": tp,
+                        "step3_gene_id": ";".join(annotated_gene_ids),
+                        "whippet_Gene": row["whippet_Gene"],
+                        "whippet_Node": row["whippet_Node"],
+                        "whippet_Type": row["whippet_Type"],
+                        "selected_by_gene_match": idx == selected_index,
+                    })
+
+                if selected_index is None:
+                    unresolved_groups.append((me, tp))
+                else:
+                    keep_indices.append(selected_index)
+
+            pd.DataFrame(diagnostic_rows).to_csv(
                 outdir / "06_whippet_duplicate_mappings.tsv",
                 sep="\t",
                 index=False,
             )
-            raise ValueError(
-                "Multiple Whippet events mapped to the same candidate "
-                "microexon/timepoint. See 06_whippet_duplicate_mappings.tsv."
-            )
+
+            if unresolved_groups:
+                raise ValueError(
+                    "Some duplicate Whippet mappings could not be resolved "
+                    "uniquely by Step 3 gene_id: "
+                    + ", ".join(
+                        f"{me}/{tp}" for me, tp in unresolved_groups
+                    )
+                )
+
+            whippet = whippet.loc[keep_indices].copy()
 
     gene_cols = [
         c for c in ["ME", "gene_id", "gene_name", "gene_biotype"]
