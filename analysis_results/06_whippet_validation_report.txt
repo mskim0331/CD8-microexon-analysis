@@ -1,0 +1,27 @@
+WHIPPET VALIDATION - STEP 6
+
+Step 5 candidate responses: 279
+Unique Step 5 microexons: 83
+Candidate responses mapped to Whippet: 250
+Unique candidate microexons mapped to Whippet: 75
+Direction-concordant mapped responses: 216
+
+Delta PSI convention after harmonization:
+  MicroExonator = activation - control
+  Whippet corrected = -(Whippet raw DeltaPsi)
+
+Effect-size agreement is reported as the absolute DeltaPSI difference
+and as Pearson/Spearman correlations. No arbitrary agreement cutoff
+is imposed in this step.
+
+Whippet Probability is retained as Whippet output and is not treated
+as a p-value or FDR.
+
+Whippet comparison files:
+  30min: whippet_validation_inputs/Delta/CD8_Ctrl_vs_CD8_30min_activation.diff.gz
+  3hr: whippet_validation_inputs/Delta/CD8_Ctrl_vs_CD8_3hr_activation.diff.gz
+  12hr: whippet_validation_inputs/Delta/CD8_Ctrl_vs_CD8_12hr_activation.diff.gz
+  24hr: whippet_validation_inputs/Delta/CD8_Ctrl_vs_CD8_24hr_activation.diff.gz
+  48hr: whippet_validation_inputs/Delta/CD8_Ctrl_vs_CD8_48hr_activation.diff.gz
+  72hr: whippet_validation_inputs/Delta/CD8_Ctrl_vs_CD8_72hr_activation.diff.gz
+  7day: whippet_validation_inputs/Delta/CD8_Ctrl_vs_CD8_7day_activation.diff.gz
