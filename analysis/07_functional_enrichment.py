@@ -55,7 +55,7 @@ def query_gprofiler(name, genes, background):
         "significance_threshold_method": "fdr",
         "domain_scope": "custom",
         "background": background,
-        "no_evidences": True,
+        "no_evidences": False,
         "ordered": False,
         "all_results": False,
     }
@@ -157,10 +157,33 @@ def main():
         }
 
         results = data.get("result", [])
+        query_ensgs = (
+            data.get("meta", {})
+            .get("genes_metadata", {})
+            .get("query", {})
+            .get("query_1", {})
+            .get("ensgs", [])
+        )
+        gene_symbol_map = (
+            annot[["gene_id", "gene_name"]]
+            .dropna(subset=["gene_id"])
+            .drop_duplicates("gene_id")
+            .set_index("gene_id")["gene_name"]
+            .to_dict()
+        )
         pvals = []
         for item in results:
             pval = item.get("p_value")
             pvals.append(pval)
+            intersections = item.get("intersections") or []
+            intersection_ids = [
+                ensg for ensg, evidence in zip(query_ensgs, intersections)
+                if evidence
+            ]
+            intersection_symbols = [
+                str(gene_symbol_map.get(ensg, "") or "")
+                for ensg in intersection_ids
+            ]
             result_rows.append({
                 "query_set": group,
                 "source": item.get("source"),
@@ -174,6 +197,10 @@ def main():
                 "effective_domain_size": item.get("effective_domain_size"),
                 "precision": item.get("precision"),
                 "recall": item.get("recall"),
+                "intersection_gene_ids": ";".join(intersection_ids),
+                "intersection_gene_symbols": ";".join(
+                    x for x in intersection_symbols if x and x.upper() != "NA"
+                ),
             })
 
         summary_rows.append({
@@ -195,7 +222,8 @@ def main():
             "query_set", "source", "term_id", "term_name",
             "adjusted_p_value", "significant", "query_size",
             "intersection_size", "term_size", "effective_domain_size",
-            "precision", "recall",
+            "precision", "recall", "intersection_gene_ids",
+            "intersection_gene_symbols",
         ])
     result_df.to_csv(
         outdir / "07_gprofiler_enrichment.tsv",
