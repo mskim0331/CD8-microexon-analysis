@@ -1,0 +1,99 @@
+name: Step 6 Whippet validation
+
+on:
+  push:
+    branches:
+      - analysis-work
+    paths:
+      - ".github/workflows/step6-whippet-validation.yml"
+      - "analysis/06_validate_with_whippet.py"
+      - "analysis/requirements.txt"
+      - "analysis_results/02_strong_responses_complete_separation.tsv"
+      - "analysis_results/03_microexon_gene_annotation.tsv"
+      - "whippet_validation_inputs/**"
+      - "provenance/whippet_*"
+      - "provenance/all_paired_diff_files_found.txt"
+      - "patches/whippet_local_changes.patch"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  validate-whippet:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out analysis-work
+        uses: actions/checkout@v4
+        with:
+          ref: analysis-work
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install analysis dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r analysis/requirements.txt
+
+      - name: Verify Step 6 input bundle
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          cat > /tmp/step6_expected.sha256 <<'EOF'
+          ed9229b47378ece12aee557524ac589170c119018d4093f8fd73384bd2a579cd  whippet_validation_inputs/whippet.jls.exons.tab.gz
+          91ae2eae4bbf1f7ac9381b2ad0aa10618621131a140ef33610060f3bc03dd2ed  whippet_validation_inputs/Delta/CD8_Ctrl_vs_CD8_12hr_activation.diff.gz
+          46badda90f6df2fef60be229ca5c777524ce8a921881c3680571b46e4db3e422  whippet_validation_inputs/Delta/CD8_Ctrl_vs_CD8_24hr_activation.diff.gz
+          42e874d67dd30d5279984cdab5fd45ca6cfd5eca75bb70e56a3b5ec09f29721e  whippet_validation_inputs/Delta/CD8_Ctrl_vs_CD8_30min_activation.diff.gz
+          9f46def9873ee7fef992e8685cf561ca42537099c4dca5d5d8a37005b65ce468  whippet_validation_inputs/Delta/CD8_Ctrl_vs_CD8_3hr_activation.diff.gz
+          5c4ffe115e82e22aa3fc2d0988234c9cd578ec4f845b1a262130c27d72a8c86b  whippet_validation_inputs/Delta/CD8_Ctrl_vs_CD8_48hr_activation.diff.gz
+          395f3201ccffba4cccda035623093739e4de8346cbde9b286e1f3682ac587460  whippet_validation_inputs/Delta/CD8_Ctrl_vs_CD8_72hr_activation.diff.gz
+          d9065b792ceb17e5cb80af877b1ac8b912675a5fe63e6bcb5b8d3792ad16290c  whippet_validation_inputs/Delta/CD8_Ctrl_vs_CD8_7day_activation.diff.gz
+          EOF
+
+          sha256sum -c /tmp/step6_expected.sha256
+
+          test "$(find whippet_validation_inputs/Delta -maxdepth 1 -type f -name '*.diff.gz' | wc -l)" -eq 7
+          gzip -t whippet_validation_inputs/whippet.jls.exons.tab.gz
+          for f in whippet_validation_inputs/Delta/*.diff.gz; do
+            gzip -t "$f"
+          done
+
+      - name: Run Step 6 validation
+        run: |
+          python analysis/06_validate_with_whippet.py \
+            --candidates analysis_results/02_strong_responses_complete_separation.tsv \
+            --gene-annotation analysis_results/03_microexon_gene_annotation.tsv \
+            --whippet-exons whippet_validation_inputs/whippet.jls.exons.tab.gz \
+            --delta-root whippet_validation_inputs/Delta \
+            --outdir analysis_results
+
+      - name: Check Step 6 outputs
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s analysis_results/06_whippet_candidate_concordance.tsv
+          test -s analysis_results/06_whippet_concordance_summary.tsv
+          test -s analysis_results/06_whippet_validation_report.txt
+          echo "Step 6 outputs:"
+          ls -lh analysis_results/06_whippet_*
+
+      - name: Commit Step 6 outputs
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add analysis_results/06_whippet_candidate_concordance.tsv
+          git add analysis_results/06_whippet_concordance_summary.tsv
+          git add analysis_results/06_whippet_validation_report.txt
+          if git diff --cached --quiet; then
+            echo "No Step 6 output changes to commit."
+          else
+            git commit -m "Run Step 6 Whippet validation [skip ci]"
+            git push origin HEAD:analysis-work
+          fi
