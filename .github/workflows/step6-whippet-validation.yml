@@ -53,6 +53,12 @@ jobs:
           5c4ffe115e82e22aa3fc2d0988234c9cd578ec4f845b1a262130c27d72a8c86b  whippet_validation_inputs/Delta/CD8_Ctrl_vs_CD8_48hr_activation.diff.gz
           395f3201ccffba4cccda035623093739e4de8346cbde9b286e1f3682ac587460  whippet_validation_inputs/Delta/CD8_Ctrl_vs_CD8_72hr_activation.diff.gz
           d9065b792ceb17e5cb80af877b1ac8b912675a5fe63e6bcb5b8d3792ad16290c  whippet_validation_inputs/Delta/CD8_Ctrl_vs_CD8_7day_activation.diff.gz
+          241ba5775173f244ab5ed9a3026e8886194a0f4db1fcd7cb98ff1d9398aba16b  provenance/all_paired_diff_files_found.txt
+          722d0cc332cab469c6695d378ab57540db219ed0c2c9048f9b0038caacc7ef88  provenance/whippet_diff_stat.txt
+          991bef72df98dd1086350891d5353647abdfaf16d82c230d7ca071f074084d92  provenance/whippet_git_head.txt
+          6753c32f08c284e036958d3210fa904b5907a49a796150db69842f8e1b744922  provenance/whippet_git_status.txt
+          e0f09aacda2756185b0b7ecda3f0e78fc280302d699a69c74ff7aa49066765b3  patches/whippet_local_changes.patch
+          e2c7595c6c79f56ffb5f4bb6457744d7d21532de62fef3b347fb5a2c9e55dbe7  provenance/whippet_modified_files.txt
           EOF
 
           sha256sum -c /tmp/step6_expected.sha256
