@@ -3,6 +3,7 @@ name: Whippet validation figures
 on:
   push:
     branches:
+      - main
       - analysis-work
     paths:
       - ".github/workflows/whippet-validation-figures.yml"
@@ -19,10 +20,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check out analysis-work
+      - name: Check out current branch
         uses: actions/checkout@v4
-        with:
-          ref: analysis-work
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -67,5 +66,5 @@ jobs:
             echo "No validation-figure changes."
           else
             git commit -m "Add Whippet validation figures [skip ci]"
-            git push origin HEAD:analysis-work
+            git push origin "HEAD:$GITHUB_REF_NAME"
           fi

@@ -22,8 +22,8 @@ CONDITION_ORDER = [
 
 def parse_args():
     p = argparse.ArgumentParser()
-    p.add_argument("--high-quality", default="out.high_quality.txt")
-    p.add_argument("--psi", default="out_filtered_ME.PSI.txt")
+    p.add_argument("--high-quality", default="microexonator_outputs/out.high_quality.txt")
+    p.add_argument("--psi", default="microexonator_outputs/out_filtered_ME.PSI.txt")
     p.add_argument("--outdir", default="analysis_results")
     return p.parse_args()
 

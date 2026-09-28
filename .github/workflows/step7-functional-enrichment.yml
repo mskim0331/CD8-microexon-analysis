@@ -3,6 +3,7 @@ name: Step 7 functional enrichment
 on:
   push:
     branches:
+      - main
       - analysis-work
     paths:
       - ".github/workflows/step7-functional-enrichment.yml"
@@ -19,10 +20,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check out analysis-work
+      - name: Check out current branch
         uses: actions/checkout@v4
-        with:
-          ref: analysis-work
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -70,5 +69,5 @@ jobs:
             echo "No functional-enrichment output changes."
           else
             git commit -m "Add Step 7 functional enrichment [skip ci]"
-            git push origin HEAD:analysis-work
+            git push origin "HEAD:$GITHUB_REF_NAME"
           fi

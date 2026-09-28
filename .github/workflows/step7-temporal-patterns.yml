@@ -3,6 +3,7 @@ name: Step 7 temporal patterns
 on:
   push:
     branches:
+      - main
       - analysis-work
     paths:
       - ".github/workflows/step7-temporal-patterns.yml"
@@ -21,10 +22,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check out analysis-work
+      - name: Check out current branch
         uses: actions/checkout@v4
-        with:
-          ref: analysis-work
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -91,5 +90,5 @@ jobs:
             echo "No Step 7 output changes to commit."
           else
             git commit -m "Run Step 7 temporal pattern analysis [skip ci]"
-            git push origin HEAD:analysis-work
+            git push origin "HEAD:$GITHUB_REF_NAME"
           fi

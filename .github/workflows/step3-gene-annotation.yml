@@ -3,6 +3,7 @@ name: Step 3 Gene Annotation
 on:
   push:
     branches:
+      - main
       - analysis-work
     paths:
       - "analysis/03_annotate_microexons_to_genes.py"
@@ -56,6 +57,6 @@ jobs:
             echo "No Step 3 output changes to commit."
           else
             git commit -m "Annotate high-confidence microexons to Ensembl genes"
-            git pull --rebase origin analysis-work
-            git push origin analysis-work
+            git pull --rebase origin "$GITHUB_REF_NAME"
+            git push origin "HEAD:$GITHUB_REF_NAME"
           fi
