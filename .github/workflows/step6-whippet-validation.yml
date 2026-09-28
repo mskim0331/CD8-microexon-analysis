@@ -64,6 +64,8 @@ jobs:
           done
 
       - name: Run Step 6 validation
+        id: step6
+        continue-on-error: true
         run: |
           python analysis/06_validate_with_whippet.py \
             --candidates analysis_results/02_strong_responses_complete_separation.tsv \
@@ -72,7 +74,21 @@ jobs:
             --delta-root whippet_validation_inputs/Delta \
             --outdir analysis_results
 
+      - name: Preserve duplicate-mapping diagnostic on failure
+        if: steps.step6.outcome == 'failure'
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s analysis_results/06_whippet_duplicate_mappings.tsv
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add analysis_results/06_whippet_duplicate_mappings.tsv
+          git commit -m "Save Step 6 duplicate mapping diagnostic [skip ci]"
+          git push origin HEAD:analysis-work
+          exit 1
+
       - name: Check Step 6 outputs
+        if: steps.step6.outcome == 'success'
         shell: bash
         run: |
           set -euo pipefail
@@ -83,6 +99,7 @@ jobs:
           ls -lh analysis_results/06_whippet_*
 
       - name: Commit Step 6 outputs
+        if: steps.step6.outcome == 'success'
         shell: bash
         run: |
           set -euo pipefail
