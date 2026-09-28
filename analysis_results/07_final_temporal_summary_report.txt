@@ -1,0 +1,26 @@
+STEP 7 FINAL TEMPORAL SUMMARY
+
+Whippet-matched candidate microexons analyzed: 75
+
+Response definition:
+  A strong reproducible response uses the existing Step 5 definition:
+  valid comparison, |DeltaPSI| >= 0.20, and complete group separation.
+  No new DeltaPSI threshold is introduced in Step 7.
+
+Timing descriptors:
+  early = first strong response at 30 min or 3 h
+  intermediate = first strong response at 12 h or 24 h
+  late = first strong response at 48 h, 72 h, or 7 d
+  'retained at 7 d' means the 7 d comparison itself meets Step 5 criteria;
+  it does not imply that every intervening timepoint was significant/strong.
+
+Robustness check:
+  The original Step 5 allowed >=2/3 valid biological replicates per group.
+  A sensitivity analysis re-counts the same responses requiring all 3/3
+  replicates in both control and activation groups.
+
+Representative trajectories:
+  Selection is data-driven, not literature-driven: complete 7-timepoint
+  coverage, 100% observed Whippet direction concordance, >=2 strong
+  timepoints, then response breadth and peak effect size within each
+  onset-phase/direction stratum.

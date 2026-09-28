@@ -1,0 +1,14 @@
+onset_phase	strong_direction	strong_at_7day	n_microexons	median_n_strong_timepoints	median_peak_abs_delta_PSI
+early	increase	True	9	6.0	0.4567887331776221
+early	increase	False	1	5.0	0.3625371360665479
+early	decrease	True	8	6.0	0.5166313333077287
+early	decrease	False	7	4.0	0.4694444444444444
+early	mixed	False	2	3.0	0.4451259388759388
+intermediate	increase	True	7	3.0	0.4674434760641658
+intermediate	increase	False	1	3.0	0.2303181232695935
+intermediate	decrease	True	13	5.0	0.4155702483527739
+intermediate	decrease	False	8	1.0	0.4050581162571464
+late	increase	True	1	1.0	0.2197919916684923
+late	increase	False	7	1.0	0.4151091045002419
+late	decrease	True	4	2.0	0.45322333478844473
+late	decrease	False	7	1.0	0.3449167779596085
