@@ -269,6 +269,9 @@ def main():
 
     whippet = pd.DataFrame(whippet_records)
 
+    resolved_duplicate_groups = 0
+    resolved_duplicate_mes = set()
+
     # The same genomic exon can appear under overlapping Whippet gene models.
     # When this creates >1 Whippet row for the same ME/timepoint, resolve the
     # ambiguity only if exactly one Whippet Gene matches the Ensembl gene_id
@@ -323,6 +326,8 @@ def main():
                     unresolved_groups.append((me, tp))
                 else:
                     keep_indices.append(selected_index)
+                    resolved_duplicate_groups += 1
+                    resolved_duplicate_mes.add(me)
 
             pd.DataFrame(diagnostic_rows).to_csv(
                 outdir / "06_whippet_duplicate_mappings.tsv",
@@ -489,6 +494,8 @@ def main():
         f"Candidate responses mapped to Whippet: {int(result['whippet_mapped'].sum())}",
         f"Unique candidate microexons mapped to Whippet: {unique_mapped_mes}",
         f"Direction-concordant mapped responses: {int(result['direction_concordant'].sum())}",
+        f"Duplicate ME/timepoint groups resolved by Step 3 gene_id: {resolved_duplicate_groups}",
+        f"Unique microexons requiring overlapping-gene resolution: {len(resolved_duplicate_mes)}",
         "",
         "Delta PSI convention after harmonization:",
         "  MicroExonator = activation - control",

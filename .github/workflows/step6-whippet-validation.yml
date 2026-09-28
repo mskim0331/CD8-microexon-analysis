@@ -108,6 +108,9 @@ jobs:
           git add analysis_results/06_whippet_candidate_concordance.tsv
           git add analysis_results/06_whippet_concordance_summary.tsv
           git add analysis_results/06_whippet_validation_report.txt
+          if [ -s analysis_results/06_whippet_duplicate_mappings.tsv ]; then
+            git add analysis_results/06_whippet_duplicate_mappings.tsv
+          fi
           if git diff --cached --quiet; then
             echo "No Step 6 output changes to commit."
           else
