@@ -1,0 +1,71 @@
+name: Whippet validation figures
+
+on:
+  push:
+    branches:
+      - analysis-work
+    paths:
+      - ".github/workflows/whippet-validation-figures.yml"
+      - "analysis/06_plot_whippet_validation.py"
+      - "analysis_results/06_whippet_candidate_concordance.tsv"
+      - "analysis_results/06_whippet_concordance_summary.tsv"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  whippet-validation-figures:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out analysis-work
+        uses: actions/checkout@v4
+        with:
+          ref: analysis-work
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r analysis/requirements.txt
+
+      - name: Create Whippet validation figures
+        run: |
+          python analysis/06_plot_whippet_validation.py \
+            --concordance analysis_results/06_whippet_candidate_concordance.tsv \
+            --summary analysis_results/06_whippet_concordance_summary.tsv \
+            --outdir analysis_results
+
+      - name: Check outputs
+        shell: bash
+        run: |
+          set -euo pipefail
+          for f in \
+            analysis_results/06_whippet_validation_scatter.png \
+            analysis_results/06_whippet_validation_scatter.svg \
+            analysis_results/06_whippet_direction_concordance_by_timepoint.png \
+            analysis_results/06_whippet_direction_concordance_by_timepoint.svg \
+            analysis_results/06_whippet_validation_plot_report.txt
+          do
+            test -s "$f"
+          done
+
+      - name: Commit outputs
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add analysis_results/06_whippet_validation_*
+          git add analysis_results/06_whippet_direction_concordance_by_timepoint.*
+          if git diff --cached --quiet; then
+            echo "No validation-figure changes."
+          else
+            git commit -m "Add Whippet validation figures [skip ci]"
+            git push origin HEAD:analysis-work
+          fi
