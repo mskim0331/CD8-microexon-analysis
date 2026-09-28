@@ -5,6 +5,8 @@ Unique Step 5 microexons: 83
 Candidate responses mapped to Whippet: 250
 Unique candidate microexons mapped to Whippet: 75
 Direction-concordant mapped responses: 216
+Duplicate ME/timepoint groups resolved by Step 3 gene_id: 19
+Unique microexons requiring overlapping-gene resolution: 3
 
 Delta PSI convention after harmonization:
   MicroExonator = activation - control
