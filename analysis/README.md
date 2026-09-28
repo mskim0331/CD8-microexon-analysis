@@ -142,3 +142,73 @@ analysis_results/06_whippet_validation_report.txt
 ```
 
 The GitHub Actions workflow `.github/workflows/step6-whippet-validation.yml` verifies the archived Step 6 inputs against their recorded SHA-256 checksums before running the validation.
+
+## Step 7: temporal patterns and biological relevance
+
+Step 7 is intentionally split into descriptive temporal analysis, robustness checking, and functional interpretation.
+
+### Temporal trajectories
+
+```bash
+python analysis/07_analyze_temporal_patterns.py \
+  --timecourse analysis_results/02_ctrl_vs_timepoint_deltaPSI.tsv \
+  --whippet analysis_results/06_whippet_candidate_concordance.tsv \
+  --gene-annotation analysis_results/03_microexon_gene_annotation.tsv \
+  --outdir analysis_results
+```
+
+This builds a 75 x 7 DeltaPSI matrix for the Whippet-matched candidate microexons and generates whole-set heatmaps. Raw DeltaPSI values are displayed; missing values remain missing in reported matrices/heatmaps. Interpolation is used only for exploratory clustering.
+
+Because the best unsupervised clustering solution mainly separated increasing and decreasing trajectories, timing interpretation is also summarized directly by the first timepoint meeting the existing Step 5 criteria.
+
+### Final temporal descriptors and robustness
+
+```bash
+python analysis/07_finalize_temporal_biology.py \
+  --timecourse analysis_results/02_ctrl_vs_timepoint_deltaPSI.tsv \
+  --step5 analysis_results/02_strong_responses_complete_separation.tsv \
+  --whippet analysis_results/06_whippet_candidate_concordance.tsv \
+  --gene-annotation analysis_results/03_microexon_gene_annotation.tsv \
+  --outdir analysis_results
+```
+
+Timing bins are descriptive:
+
+- early: 30 min or 3 h
+- intermediate: 12 h or 24 h
+- late: 48 h, 72 h, or 7 d
+
+No new DeltaPSI response threshold is added. The response definition remains the Step 5 rule: valid comparison, `|DeltaPSI| >= 0.20`, and complete group separation.
+
+A sensitivity analysis repeats the response count while requiring all 3/3 biological replicates to be non-missing in both groups.
+
+### Functional enrichment
+
+```bash
+python analysis/07_functional_enrichment.py \
+  --patterns analysis_results/07_temporal_pattern_labels.tsv \
+  --gene-annotation analysis_results/03_microexon_gene_annotation.tsv \
+  --outdir analysis_results
+```
+
+g:Profiler GO Biological Process / Reactome enrichment uses FDR < 0.05 and a custom background of genes represented among the 656 high-confidence microexons. The g:Profiler database/version metadata and raw response are stored with the results.
+
+Main Step 7 outputs include:
+
+```text
+analysis_results/07_whippet_matched_microexon_deltaPSI_matrix.tsv
+analysis_results/07_temporal_heatmap.png
+analysis_results/07_temporal_heatmap_by_onset.png
+analysis_results/07_temporal_pattern_labels.tsv
+analysis_results/07_temporal_pattern_summary.tsv
+analysis_results/07_replicate_coverage_sensitivity.tsv
+analysis_results/07_data_driven_representative_candidates.tsv
+analysis_results/07_representative_candidate_PSI_trajectories.png
+analysis_results/07_gprofiler_enrichment.tsv
+analysis_results/07_gprofiler_top_terms.png
+analysis_results/07_literature_context_candidates.tsv
+analysis_results/07_biological_relevance_report.md
+```
+
+Literature-supported host-gene functions are used only as biological context; they are not treated as proof that a detected microexon has a functional effect.
+
