@@ -1,0 +1,7 @@
+query_set	n_unique_query_genes	n_background_genes	n_significant_terms	smallest_adjusted_p_value
+all_matched	72	559	0	NA
+increase	26	559	0	NA
+decrease	44	559	0	NA
+early_onset	26	559	0	NA
+intermediate_onset	28	559	13	0.024651044286851494
+late_onset	18	559	0	NA
