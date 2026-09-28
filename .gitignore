@@ -1,0 +1,21 @@
+.DS_Store
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.log
+*.tmp
+
+# Large local inputs/intermediates
+*.fastq
+*.fastq.gz
+*.bam
+*.sam
+*.gtf
+*.gtf.gz
+*.fa
+*.fasta
+*.bw
+Whippet_Paired/
+FASTQ/
+FASTQ_whippet_paired_clean/

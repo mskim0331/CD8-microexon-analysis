@@ -1,0 +1,9 @@
+WHIPPET VALIDATION FIGURES
+
+Mapped responses plotted: 250
+Direction concordant: 216/250 (86.4%)
+Pearson r: 0.761755
+Spearman rho: 0.729114
+
+Scatter axes use the same sign convention:
+  DeltaPSI = Activation - Control

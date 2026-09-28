@@ -1,0 +1,63 @@
+MICROEXON DATA QC - STEP 1
+
+High-quality table rows: 656
+Unique high-quality microexon coordinates: 656
+PSI table rows: 140400
+Unique quantified candidate microexons: 5850
+Biological samples: 24
+High-quality microexons present in PSI table: 656
+High-quality microexons absent from PSI table: 0
+High-quality PSI matrix: 656 microexons x 24 samples
+Overall high-quality PSI missing fraction: 0.1225
+
+Rows per sample (all candidates):
+  CD8_ctrl_1: rows=5850, unique_ME=5850
+  CD8_ctrl_2: rows=5850, unique_ME=5850
+  CD8_ctrl_3: rows=5850, unique_ME=5850
+  CD8_30min_activation_1: rows=5850, unique_ME=5850
+  CD8_30min_activation_2: rows=5850, unique_ME=5850
+  CD8_30min_activation_3: rows=5850, unique_ME=5850
+  CD8_3hr_activation_1: rows=5850, unique_ME=5850
+  CD8_3hr_activation_2: rows=5850, unique_ME=5850
+  CD8_3hr_activation_3: rows=5850, unique_ME=5850
+  CD8_12hr_activation_1: rows=5850, unique_ME=5850
+  CD8_12hr_activation_2: rows=5850, unique_ME=5850
+  CD8_12hr_activation_3: rows=5850, unique_ME=5850
+  CD8_24hr_activation_1: rows=5850, unique_ME=5850
+  CD8_24hr_activation_2: rows=5850, unique_ME=5850
+  CD8_24hr_activation_3: rows=5850, unique_ME=5850
+  CD8_48hr_activation_1: rows=5850, unique_ME=5850
+  CD8_48hr_activation_2: rows=5850, unique_ME=5850
+  CD8_48hr_activation_3: rows=5850, unique_ME=5850
+  CD8_72hr_activation_1: rows=5850, unique_ME=5850
+  CD8_72hr_activation_2: rows=5850, unique_ME=5850
+  CD8_72hr_activation_3: rows=5850, unique_ME=5850
+  CD8_7day_activation_1: rows=5850, unique_ME=5850
+  CD8_7day_activation_2: rows=5850, unique_ME=5850
+  CD8_7day_activation_3: rows=5850, unique_ME=5850
+
+Within-condition replicate correlations:
+  CD8_ctrl_1 vs CD8_ctrl_2: n=528, Pearson=0.9134, Spearman=0.9020
+  CD8_ctrl_1 vs CD8_ctrl_3: n=518, Pearson=0.8944, Spearman=0.8860
+  CD8_ctrl_2 vs CD8_ctrl_3: n=541, Pearson=0.8917, Spearman=0.8773
+  CD8_30min_activation_1 vs CD8_30min_activation_2: n=533, Pearson=0.9020, Spearman=0.8860
+  CD8_30min_activation_1 vs CD8_30min_activation_3: n=540, Pearson=0.9260, Spearman=0.8888
+  CD8_30min_activation_2 vs CD8_30min_activation_3: n=549, Pearson=0.9155, Spearman=0.9074
+  CD8_3hr_activation_1 vs CD8_3hr_activation_2: n=533, Pearson=0.9357, Spearman=0.8936
+  CD8_3hr_activation_1 vs CD8_3hr_activation_3: n=516, Pearson=0.9407, Spearman=0.8978
+  CD8_3hr_activation_2 vs CD8_3hr_activation_3: n=516, Pearson=0.9334, Spearman=0.8937
+  CD8_12hr_activation_1 vs CD8_12hr_activation_2: n=559, Pearson=0.9682, Spearman=0.9050
+  CD8_12hr_activation_1 vs CD8_12hr_activation_3: n=533, Pearson=0.9620, Spearman=0.9095
+  CD8_12hr_activation_2 vs CD8_12hr_activation_3: n=533, Pearson=0.9685, Spearman=0.9028
+  CD8_24hr_activation_1 vs CD8_24hr_activation_2: n=569, Pearson=0.9651, Spearman=0.9269
+  CD8_24hr_activation_1 vs CD8_24hr_activation_3: n=570, Pearson=0.9700, Spearman=0.9299
+  CD8_24hr_activation_2 vs CD8_24hr_activation_3: n=560, Pearson=0.9596, Spearman=0.9222
+  CD8_48hr_activation_1 vs CD8_48hr_activation_2: n=538, Pearson=0.9793, Spearman=0.9397
+  CD8_48hr_activation_1 vs CD8_48hr_activation_3: n=550, Pearson=0.9586, Spearman=0.9121
+  CD8_48hr_activation_2 vs CD8_48hr_activation_3: n=541, Pearson=0.9760, Spearman=0.9202
+  CD8_72hr_activation_1 vs CD8_72hr_activation_2: n=534, Pearson=0.9471, Spearman=0.9075
+  CD8_72hr_activation_1 vs CD8_72hr_activation_3: n=530, Pearson=0.9531, Spearman=0.9037
+  CD8_72hr_activation_2 vs CD8_72hr_activation_3: n=538, Pearson=0.9216, Spearman=0.9052
+  CD8_7day_activation_1 vs CD8_7day_activation_2: n=583, Pearson=0.9522, Spearman=0.9147
+  CD8_7day_activation_1 vs CD8_7day_activation_3: n=599, Pearson=0.9625, Spearman=0.9049
+  CD8_7day_activation_2 vs CD8_7day_activation_3: n=591, Pearson=0.9614, Spearman=0.9155

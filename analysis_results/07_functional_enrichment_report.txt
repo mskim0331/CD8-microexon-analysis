@@ -1,0 +1,20 @@
+STEP 7 FUNCTIONAL ENRICHMENT
+
+Unique genes in high-confidence custom background: 559
+Sources queried: GO:BP, Reactome
+Multiple-testing correction: FDR
+Significance threshold: adjusted p < 0.05
+Domain scope: custom
+
+Rationale for custom background:
+  The candidate genes arose from a restricted set of genes represented
+  among the 656 high-confidence microexons, rather than from an unbiased
+  genome-wide gene screen. Using those represented genes as background
+  reduces enrichment bias from the upstream detection/selection process.
+
+all_matched: 72 genes, 0 significant terms
+increase: 26 genes, 0 significant terms
+decrease: 44 genes, 0 significant terms
+early_onset: 26 genes, 0 significant terms
+intermediate_onset: 28 genes, 13 significant terms
+late_onset: 18 genes, 0 significant terms

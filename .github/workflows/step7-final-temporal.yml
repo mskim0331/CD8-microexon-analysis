@@ -1,0 +1,64 @@
+name: Step 7 final temporal summary
+
+on:
+  push:
+    branches:
+      - main
+      - analysis-work
+    paths:
+      - ".github/workflows/step7-final-temporal.yml"
+      - "analysis/07_finalize_temporal_biology.py"
+      - "analysis_results/02_ctrl_vs_timepoint_deltaPSI.tsv"
+      - "analysis_results/02_strong_responses_complete_separation.tsv"
+      - "analysis_results/03_microexon_gene_annotation.tsv"
+      - "analysis_results/06_whippet_candidate_concordance.tsv"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  finalize-temporal:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out current branch
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r analysis/requirements.txt
+          pip install matplotlib==3.10.6
+
+      - name: Run final temporal summary
+        run: |
+          python analysis/07_finalize_temporal_biology.py \
+            --timecourse analysis_results/02_ctrl_vs_timepoint_deltaPSI.tsv \
+            --step5 analysis_results/02_strong_responses_complete_separation.tsv \
+            --whippet analysis_results/06_whippet_candidate_concordance.tsv \
+            --gene-annotation analysis_results/03_microexon_gene_annotation.tsv \
+            --outdir analysis_results
+
+      - name: Check outputs
+        shell: bash
+        run: |
+          set -euo pipefail
+          for f in \
+            analysis_results/07_temporal_pattern_labels.tsv \
+            analysis_results/07_temporal_pattern_summary.tsv \
+            analysis_results/07_replicate_coverage_sensitivity.tsv \
+            analysis_results/07_replicate_coverage_sensitivity_overall.tsv \
+            analysis_results/07_data_driven_representative_candidates.tsv \
+            analysis_results/07_onset_phase_direction_counts.png \
+            analysis_results/07_onset_phase_direction_counts.svg \
+            analysis_results/07_representative_candidate_PSI_trajectories.png \
+            analysis_results/07_representative_candidate_PSI_trajectories.svg \
+            analysis_results/07_final_temporal_summary_report.txt
+          do
+            test -s "$f"
+          done

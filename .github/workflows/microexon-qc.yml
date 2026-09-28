@@ -1,0 +1,50 @@
+name: Microexon QC
+
+on:
+  push:
+    branches:
+      - main
+      - analysis-work
+    paths:
+      - "analysis/01_build_microexon_qc.py"
+      - "analysis/02_summarize_timecourse.py"
+      - "analysis/requirements.txt"
+      - "microexonator_outputs/out.high_quality.txt"
+      - "microexonator_outputs/out_filtered_ME.PSI.txt"
+      - ".github/workflows/microexon-qc.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  run-qc:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install analysis dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r analysis/requirements.txt
+
+      - name: Run structural QC
+        run: |
+          python analysis/01_build_microexon_qc.py \
+            --high-quality microexonator_outputs/out.high_quality.txt \
+            --psi microexonator_outputs/out_filtered_ME.PSI.txt \
+            --outdir analysis_results
+
+      - name: Summarize the time course
+        run: |
+          python analysis/02_summarize_timecourse.py \
+            --matrix analysis_results/01_high_quality_PSI_matrix.tsv \
+            --annotation analysis_results/01_high_quality_annotation.tsv \
+            --outdir analysis_results

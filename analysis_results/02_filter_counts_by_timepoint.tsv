@@ -1,0 +1,8 @@
+timepoint	total_microexons	testable_microexons	not_testable_microexons	abs_delta_ge_0.10	abs_delta_ge_0.20	abs_delta_ge_0.20_and_complete_separation	increased_ge_0.20	decreased_le_minus_0.20
+30min	656	555	101	64	26	8	14	12
+3hr	656	538	118	87	48	25	20	28
+12hr	656	532	124	103	65	49	27	38
+24hr	656	546	110	111	64	48	26	38
+48hr	656	519	137	116	69	53	26	43
+72hr	656	510	146	108	67	49	26	41
+7day	656	542	114	102	66	47	29	37

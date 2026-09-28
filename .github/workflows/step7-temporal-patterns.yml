@@ -1,0 +1,80 @@
+name: Step 7 temporal patterns
+
+on:
+  push:
+    branches:
+      - main
+      - analysis-work
+    paths:
+      - ".github/workflows/step7-temporal-patterns.yml"
+      - "analysis/07_analyze_temporal_patterns.py"
+      - "analysis/requirements.txt"
+      - "analysis_results/02_ctrl_vs_timepoint_deltaPSI.tsv"
+      - "analysis_results/03_microexon_gene_annotation.tsv"
+      - "analysis_results/06_whippet_candidate_concordance.tsv"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  temporal-patterns:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out current branch
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r analysis/requirements.txt
+          python - <<'PY' > analysis_results/07_environment.txt
+          import sys
+          import numpy
+          import pandas
+          import matplotlib
+          import scipy
+          print("python=" + sys.version.replace("\n", " "))
+          print("numpy=" + numpy.__version__)
+          print("pandas=" + pandas.__version__)
+          print("matplotlib=" + matplotlib.__version__)
+          print("scipy=" + scipy.__version__)
+          PY
+
+      - name: Run Step 7 temporal analysis
+        run: |
+          python analysis/07_analyze_temporal_patterns.py \
+            --timecourse analysis_results/02_ctrl_vs_timepoint_deltaPSI.tsv \
+            --whippet analysis_results/06_whippet_candidate_concordance.tsv \
+            --gene-annotation analysis_results/03_microexon_gene_annotation.tsv \
+            --outdir analysis_results
+
+      - name: Check Step 7 outputs
+        shell: bash
+        run: |
+          set -euo pipefail
+          for f in \
+            analysis_results/07_whippet_matched_microexon_deltaPSI_matrix.tsv \
+            analysis_results/07_temporal_clusters.tsv \
+            analysis_results/07_temporal_cluster_summary.tsv \
+            analysis_results/07_cluster_number_silhouette.tsv \
+            analysis_results/07_first_strong_response_summary.tsv \
+            analysis_results/07_peak_time_summary.tsv \
+            analysis_results/07_temporal_heatmap.png \
+            analysis_results/07_temporal_heatmap.svg \
+            analysis_results/07_temporal_heatmap_by_onset.png \
+            analysis_results/07_temporal_heatmap_by_onset.svg \
+            analysis_results/07_temporal_cluster_trajectories.png \
+            analysis_results/07_temporal_cluster_trajectories.svg \
+            analysis_results/07_temporal_analysis_report.txt \
+            analysis_results/07_environment.txt
+          do
+            test -s "$f"
+          done
+          ls -lh analysis_results/07_*

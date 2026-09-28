@@ -1,0 +1,46 @@
+name: Step 3 Gene Annotation
+
+on:
+  push:
+    branches:
+      - main
+      - analysis-work
+    paths:
+      - "analysis/03_annotate_microexons_to_genes.py"
+      - "analysis_results/01_high_quality_annotation.tsv"
+      - ".github/workflows/step3-gene-annotation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  annotate-genes:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install analysis dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r analysis/requirements.txt
+
+      - name: Download Ensembl Release 114 GTF
+        run: |
+          curl -fL --retry 3 \
+            -o Homo_sapiens.GRCh38.114.gtf.gz \
+            https://ftp.ensembl.org/pub/release-114/gtf/homo_sapiens/Homo_sapiens.GRCh38.114.gtf.gz
+
+      - name: Annotate microexons to genes
+        run: |
+          python analysis/03_annotate_microexons_to_genes.py \
+            --annotation analysis_results/01_high_quality_annotation.tsv \
+            --gtf Homo_sapiens.GRCh38.114.gtf.gz \
+            --outdir analysis_results
