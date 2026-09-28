@@ -1,0 +1,16 @@
+Delta/CD8_Ctrl_vs_CD8_12hr_activation.diff.gz	8063157 bytes
+Delta/CD8_Ctrl_vs_CD8_24hr_activation.diff.gz	8117652 bytes
+Delta/CD8_Ctrl_vs_CD8_30min_activation.diff.gz	8270402 bytes
+Delta/CD8_Ctrl_vs_CD8_3hr_activation.diff.gz	7920284 bytes
+Delta/CD8_Ctrl_vs_CD8_48hr_activation.diff.gz	7950198 bytes
+Delta/CD8_Ctrl_vs_CD8_72hr_activation.diff.gz	8143786 bytes
+Delta/CD8_Ctrl_vs_CD8_7day_activation.diff.gz	8250311 bytes
+SHA256SUMS.txt	1518 bytes
+file_manifest.txt	0 bytes
+provenance/all_paired_diff_files_found.txt	896 bytes
+provenance/whippet_diff_stat.txt	124 bytes
+provenance/whippet_git_head.txt	41 bytes
+provenance/whippet_git_status.txt	39 bytes
+provenance/whippet_local_changes.patch	573 bytes
+provenance/whippet_modified_files.txt	33 bytes
+whippet.jls.exons.tab.gz	12347232 bytes
