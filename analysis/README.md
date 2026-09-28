@@ -92,4 +92,53 @@ analysis_results/02_microexon_timecourse_summary.tsv
 analysis_results/02_timecourse_report.txt
 ```
 
-The Whippet cross-validation step will be added separately after microexon-specific Whippet differential events are extracted.
+## Step 3: gene annotation
+
+```bash
+python analysis/03_annotate_microexons_to_genes.py \
+  --high-quality out.high_quality.txt \
+  --gtf Homo_sapiens.GRCh38.114.gtf \
+  --outdir analysis_results
+```
+
+This step maps each high-quality MicroExonator coordinate through its associated Ensembl transcript ID to Ensembl gene ID, gene name, and gene biotype. The repository stores the resulting annotation table and transcript-to-gene map in `analysis_results/`.
+
+Main outputs:
+
+```text
+analysis_results/03_microexon_gene_annotation.tsv
+analysis_results/03_transcript_gene_map.tsv
+analysis_results/03_gene_annotation_report.txt
+```
+
+## Step 6: independent validation with paired-end Whippet
+
+```bash
+python analysis/06_validate_with_whippet.py \
+  --candidates analysis_results/02_strong_responses_complete_separation.tsv \
+  --gene-annotation analysis_results/03_microexon_gene_annotation.tsv \
+  --whippet-exons whippet_validation_inputs/whippet.jls.exons.tab.gz \
+  --delta-root whippet_validation_inputs/Delta \
+  --outdir analysis_results
+```
+
+The validation uses the seven paired-end Ctrl-vs-activation Whippet differential-splicing files. Candidate Whippet events are converted to MicroExonator coordinates using the exon table generated with the Whippet index. Whippet raw `DeltaPsi` is defined as `Psi_A - Psi_B`; because A is Ctrl and B is activation here, the sign is reversed so that both methods use:
+
+```text
+Delta PSI = activation - control
+```
+
+If the same genomic microexon maps to multiple Whippet gene models, the ambiguity is resolved only when exactly one Whippet `Gene` matches the Ensembl `gene_id` assigned to that microexon in Step 3. The diagnostic table records all such cases and the selected mapping.
+
+Effect-size agreement is reported using the absolute difference between the two Delta PSI estimates and Pearson/Spearman correlations. No arbitrary effect-agreement threshold is imposed. Whippet `Probability` is retained as a Whippet output and is not treated as a p-value or FDR.
+
+Main outputs:
+
+```text
+analysis_results/06_whippet_candidate_concordance.tsv
+analysis_results/06_whippet_concordance_summary.tsv
+analysis_results/06_whippet_duplicate_mappings.tsv
+analysis_results/06_whippet_validation_report.txt
+```
+
+The GitHub Actions workflow `.github/workflows/step6-whippet-validation.yml` verifies the archived Step 6 inputs against their recorded SHA-256 checksums before running the validation.
